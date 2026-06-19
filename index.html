@@ -44,6 +44,116 @@ details summary{list-style:none}details summary::-webkit-details-marker{display:
 .badge{display:inline-block;background:#fef3c7;border-radius:999px;padding:5px 9px;font-weight:800;margin:3px}
 @media(max-width:900px){.setupTwoCols{grid-template-columns:1fr}.countriesPanel{order:2}.rightPanel{order:1}.country-tools{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:520px){.country-tools{grid-template-columns:repeat(2,minmax(0,1fr))}#leafletMap{height:calc(100vh - 250px);min-height:360px}}
+
+#mapArea{
+  position:relative;
+}
+.mapOverlayMessage{
+  position:absolute;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2000;
+  padding:12px 18px;
+  border-radius:16px;
+  font-weight:900;
+  font-size:1.05rem;
+  text-align:center;
+  box-shadow:0 8px 22px rgba(15,23,42,.30);
+  pointer-events:none;
+  max-width:86%;
+  line-height:1.25;
+}
+.mapOverlayMessage.correct{
+  background:#dcfce7;
+  color:#166534;
+  border:2px solid #16a34a;
+}
+.mapOverlayMessage.wrong{
+  background:#fee2e2;
+  color:#991b1b;
+  border:2px solid #dc2626;
+}
+.countryPoly{
+  transition: fill .12s ease, fill-opacity .12s ease, stroke-width .12s ease;
+}
+
+#mapArea{
+  position:relative;
+}
+.mapOverlayMessage{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2000;
+  padding:18px 24px;
+  border-radius:18px;
+  font-weight:900;
+  font-size:1.25rem;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(15,23,42,.35);
+  pointer-events:none;
+  max-width:86%;
+  line-height:1.25;
+}
+.mapOverlayMessage.correct{
+  background:#dcfce7;
+  color:#166534;
+  border:3px solid #16a34a;
+}
+.mapOverlayMessage.wrong{
+  background:#fee2e2;
+  color:#991b1b;
+  border:3px solid #dc2626;
+}.countryPoly{
+  transition: fill .12s ease, fill-opacity .12s ease, stroke-width .12s ease;
+}
+
+.feedback{
+  background:#f8fafc;
+  border-radius:12px;
+  padding:8px 10px;
+}
+.feedback:empty{
+  background:transparent;
+  padding:0;
+}
+
+#inputArea{
+  margin-top:10px;
+}
+#mapArea + #inputArea{
+  background:#f8fafc;
+  border:1px solid #d8dee9;
+  border-radius:14px;
+  padding:10px;
+}
+#mapArea + #inputArea + .feedback{
+  margin-top:8px;
+}
+
+.mapFollowup{
+  margin-top:10px;
+  background:#f8fafc;
+  border:1px solid #d8dee9;
+  border-radius:14px;
+  padding:12px 14px;
+}
+.followTitle{
+  color:#64748b;
+  font-weight:800;
+  font-size:.95rem;
+  margin-bottom:4px;
+}
+.followQuestion{
+  color:#172033;
+  font-weight:850;
+  font-size:1.15rem;
+}
+#mapFollowupQuestion + #inputArea{
+  margin-top:8px;
+}
 </style>
 </head>
 <body>
@@ -105,8 +215,10 @@ details summary{list-style:none}details summary::-webkit-details-marker{display:
 <section id="game" class="card hidden">
   <div class="stats"><span class="stat">Punkte: <span id="score">0</span></span><span class="stat">⏱ Zeit: <span id="elapsedTime">00:00</span></span><span class="stat">Frage: <span id="current">1</span>/<span id="total">0</span></span><span class="stat">Fehler: <span id="mistakes">0</span></span></div>
   <div id="taskText" class="muted"></div><div id="flagDisplay" class="flagBig hidden"></div><div id="question" class="question"></div>
+  <div id="mapArea" class="hidden"></div>
+  <div id="mapFollowupQuestion" class="mapFollowup hidden"></div>
   <div id="inputArea" class="hidden"><input id="answerInput" type="text" placeholder="Antwort eingeben..." autocomplete="off"><button onclick="submitText()">Prüfen</button></div>
-  <div id="mapArea" class="hidden"></div><div id="choiceArea" class="answers hidden"></div><div id="neighborArea" class="hidden"></div>
+  <div id="feedback" class="feedback"></div><div id="choiceArea" class="answers hidden"></div><div id="neighborArea" class="hidden"></div>
   <div id="feedback" class="feedback"></div><button class="secondary" onclick="skip()">Überspringen</button><button class="red" onclick="backToSetup()">Beenden / Optionen</button>
 </section>
 <section id="result" class="card hidden"><h2>Fertig!</h2><p id="finalText"></p><div id="badges"></div><button class="green" onclick="startGame()">Noch einmal</button><button class="secondary" onclick="backToSetup()">Optionen ändern</button><h3>Fortschritt</h3><div id="progressView"></div></section>
@@ -130,7 +242,20 @@ function selectAll(){document.querySelectorAll(".countryCheck").forEach(c=>c.che
 function selectEasy(){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.easy)});updateSelectedCount()} function selectRegion(r){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.region===r)});updateSelectedCount()}
 function selectGroup(g){const eu=["Belgien","Bulgarien","Dänemark","Deutschland","Estland","Finnland","Frankreich","Griechenland","Irland","Italien","Kroatien","Lettland","Litauen","Luxemburg","Malta","Niederlande","Österreich","Polen","Portugal","Rumänien","Schweden","Slowakei","Slowenien","Spanien","Tschechien","Ungarn"];document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&eu.includes(c.country))});updateSelectedCount()}
 function startGame(){mode=getChecked("mode");selected=Array.from(document.querySelectorAll(".countryCheck:checked")).map(ch=>DATA[Number(ch.value)]);if(selected.length===0){alert("Bitte mindestens ein Land auswählen.");return}selected.forEach(initProgress);if(opt("onlyWrong")){selected=selected.filter(c=>progress[c.country]&&progress[c.country].wrong>0);if(selected.length===0){alert("Es gibt noch keine falsch beantworteten Länder.");return}}if(opt("weakestFirst"))questions=[...selected].sort((a,b)=>mastery(a)-mastery(b));else if(opt("randomOrder"))questions=shuffle([...selected]);else questions=[...selected];questions=questions.slice(0,Math.min(getQuestionLimit(),questions.length));wrongQueue=[];qIndex=0;score=0;mistakes=0;byId("setup").classList.add("hidden");byId("result").classList.add("hidden");byId("game").classList.remove("hidden");byId("total").textContent=questions.length;startElapsedTimer();nextQuestion()}
-function clearUI(){if(map){map.remove();map=null}["flagDisplay","inputArea","choiceArea","neighborArea","mapArea"].forEach(id=>byId(id).classList.add("hidden"));byId("feedback").textContent="";byId("choiceArea").innerHTML="";byId("neighborArea").innerHTML="";byId("mapArea").innerHTML="";byId("question").textContent=""}
+function clearUI(){
+ if(map){map.remove();map=null}
+ ["flagDisplay","inputArea","choiceArea","neighborArea","mapArea","mapFollowupQuestion"].forEach(id=>{
+   const el=byId(id);
+   if(el) el.classList.add("hidden");
+ });
+ byId("feedback").textContent="";
+ byId("choiceArea").innerHTML="";
+ byId("neighborArea").innerHTML="";
+ byId("mapArea").innerHTML="";
+ const f=byId("mapFollowupQuestion");
+ if(f) f.innerHTML="";
+ byId("question").textContent="";
+}
 function setStats(){byId("score").textContent=score;byId("current").textContent=Math.min(qIndex+1,questions.length);byId("mistakes").textContent=mistakes}
 function nextQuestion(){clearUI();setStats();if(qIndex>=questions.length){if(opt("repeatWrong")&&wrongQueue.length){questions=shuffle(wrongQueue);wrongQueue=[];qIndex=0;byId("total").textContent=questions.length}else return finish()}current=questions[qIndex];phase="main";renderPhase()}
 function renderPhase(){activeMode=mode==="mixed"?shuffle(["capitalWrite","capitalChoice","flagWrite","flagChoice","countryToFlag","map"])[0]:mode;if(activeMode==="map")return renderMap();if(activeMode==="capitalWrite")return renderText("Wie heißt die Hauptstadt von:",current.country,"capital");if(activeMode==="capitalChoice")return renderChoice("Wie heißt die Hauptstadt von:",current.country,"capital",current.capital,selected.map(c=>c.capital));if(activeMode==="flagWrite")return renderFlagText("Welches Land hat diese Flagge?","country");if(activeMode==="flagChoice")return renderFlagChoice("Welches Land hat diese Flagge?","country");if(activeMode==="countryToFlag")return renderFlagImageChoice("Welche Flagge gehört zu:",current.country)}
@@ -139,12 +264,231 @@ function renderFlagText(task,target){byId("taskText").textContent=task;byId("fla
 function renderChoice(task,q,target,correct,pool){byId("taskText").textContent=task;byId("question").textContent=q;byId("choiceArea").classList.remove("hidden");let opts=shuffle([...new Set(pool.filter(x=>x!==correct))]).slice(0,3);opts=shuffle([correct,...opts]);opts.forEach(o=>{let b=document.createElement("button");b.className="answerBtn";b.textContent=o;b.onclick=()=>checkValue(o,correct,target);byId("choiceArea").appendChild(b)})}
 function renderFlagChoice(task,target){byId("taskText").textContent=task;byId("flagDisplay").innerHTML=flagImg(current);byId("flagDisplay").classList.remove("hidden");byId("choiceArea").classList.remove("hidden");let opts=shuffle(selected.filter(c=>c.country!==current.country)).slice(0,3).map(c=>c.country);opts=shuffle([current.country,...opts]);opts.forEach(o=>{let b=document.createElement("button");b.className="answerBtn";b.textContent=o;b.onclick=()=>checkValue(o,current.country,target);byId("choiceArea").appendChild(b)})}
 function renderFlagImageChoice(task,q){byId("taskText").textContent=task;byId("question").textContent=q;byId("choiceArea").classList.remove("hidden");let opts=shuffle([current,...shuffle(selected.filter(c=>c.country!==current.country)).slice(0,3)]);opts.forEach(c=>{let b=document.createElement("button");b.className="answerBtn";b.innerHTML=flagImg(c,"flagChoiceImg");b.onclick=()=>checkValue(c.country,current.country,"flag");byId("choiceArea").appendChild(b)})}
-function renderMap(){byId("taskText").textContent="Wo liegt dieses Land?";byId("question").textContent=current.country;byId("mapArea").classList.remove("hidden");byId("mapArea").innerHTML='<div id="leafletMap"></div>';mapAnswered=false;map=L.map("leafletMap",{zoomControl:true,attributionControl:false,preferCanvas:false,maxBounds:[[30,-32],[75,52]],maxBoundsViscosity:.85}).setView([52,15],4);L.rectangle([[25,-35],[72,45]],{color:"#00000000",fillColor:"#f8fafc",fillOpacity:1,interactive:false}).addTo(map);const selectedIso=new Set(selected.map(c=>c.iso3));const isoToCountry={};selected.forEach(c=>isoToCountry[c.iso3]=c);const features=GEO_DATA.features.filter(f=>selectedIso.has(f.properties.iso3));geoLayer=L.geoJSON({type:"FeatureCollection",features},{style:()=>({className:"countryPoly",color:"#111827",weight:1.4,fillColor:"#fff",fillOpacity:1}),onEachFeature:(feature,layer)=>{const c=isoToCountry[feature.properties.iso3];if(!c)return;layer.on("click",()=>{if(mapAnswered)return;mapAnswered=true;if(c.country===current.country){layer.setStyle({fillColor:"#2563eb",fillOpacity:.78,color:"#0f172a",weight:2.4});markCorrect("map")}else{layer.setStyle({fillColor:"#dc2626",fillOpacity:.78,color:"#0f172a",weight:2.4});geoLayer.eachLayer(l=>{if(l.feature.properties.iso3===current.iso3)l.setStyle({fillColor:"#2563eb",fillOpacity:.78,color:"#0f172a",weight:2.4})});markWrong("Falsch. Das gesuchte Land ist blau markiert.","map")}})}}).addTo(map);try{map.fitBounds([[34,-25],[72,45]],{padding:[4,4],animate:false});setTimeout(()=>map.invalidateSize(),100)}catch(e){map.setView([52,15],4)}}
+function renderMap(){
+ byId("taskText").textContent="Wo liegt dieses Land?";
+ byId("question").textContent=current.country;
+ byId("mapArea").classList.remove("hidden");
+ byId("mapArea").innerHTML='<div id="leafletMap"></div><div id="mapOverlay" class="mapOverlayMessage hidden"></div>';
+ mapAnswered=false;
+
+ function showMapOverlay(text,type){
+   const el=byId("mapOverlay");
+   if(!el)return;
+   el.innerHTML=text;
+   el.className="mapOverlayMessage " + type;
+ }
+
+ function styleLayer(layer,type){
+   if(!layer)return;
+   if(type==="correct"){
+     layer.setStyle({
+       fillColor:"#2563eb",
+       fillOpacity:.95,
+       color:"#0f172a",
+       weight:4
+     });
+   }else if(type==="wrong"){
+     layer.setStyle({
+       fillColor:"#dc2626",
+       fillOpacity:.95,
+       color:"#0f172a",
+       weight:4
+     });
+   }
+   if(layer.bringToFront) layer.bringToFront();
+ }
+
+ map=L.map("leafletMap",{
+   zoomControl:true,
+   attributionControl:false,
+   preferCanvas:false,
+   maxBounds:[[30,-32],[75,52]],
+   maxBoundsViscosity:.85
+ }).setView([52,15],4);
+
+ L.rectangle([[25,-35],[72,45]],{
+   color:"#00000000",
+   fillColor:"#f8fafc",
+   fillOpacity:1,
+   interactive:false
+ }).addTo(map);
+
+ const selectedIso=new Set(selected.map(c=>c.iso3));
+ const isoToCountry={};
+ selected.forEach(c=>isoToCountry[c.iso3]=c);
+ const features=GEO_DATA.features.filter(f=>selectedIso.has(f.properties.iso3));
+ let targetLayer=null;
+
+ geoLayer=L.geoJSON({type:"FeatureCollection",features},{
+   style:()=>({
+     className:"countryPoly",
+     color:"#111827",
+     weight:1.4,
+     fillColor:"#fff",
+     fillOpacity:1
+   }),
+   onEachFeature:(feature,layer)=>{
+     const c=isoToCountry[feature.properties.iso3];
+     if(!c)return;
+     layer._countryData=c;
+
+     if(c.iso3===current.iso3){
+       targetLayer=layer;
+     }
+
+     layer.on("click",()=>{
+       if(mapAnswered)return;
+       mapAnswered=true;
+
+       if(!targetLayer && geoLayer){
+         geoLayer.eachLayer(l=>{
+           if(l._countryData && l._countryData.iso3===current.iso3){
+             targetLayer=l;
+           }
+         });
+       }
+
+       if(c.country===current.country){
+         styleLayer(layer,"correct");
+
+         score++;
+         updateProgress("map",true);
+         showMapOverlay("Richtig!","correct");
+         setStats();
+
+         setTimeout(()=>{
+           afterMainCorrect();
+         },2000);
+       }else{
+         styleLayer(layer,"wrong");
+         styleLayer(targetLayer,"correct");
+
+         mistakes++;
+         updateProgress("map",false);
+         if(current&&!wrongQueue.includes(current)) wrongQueue.push(current);
+
+         showMapOverlay("Das war leider falsch.<br><span style='font-size:.95rem'>Sie haben "+c.country+" ausgewählt.</span>","wrong");
+         setStats();
+
+         setTimeout(()=>{
+           qIndex++;
+           nextQuestion();
+         },2000);
+       }
+     });
+   }
+ }).addTo(map);
+
+ geoLayer.eachLayer(l=>{
+   if(l._countryData && l._countryData.iso3===current.iso3){
+     targetLayer=l;
+   }
+ });
+
+ try{
+   map.fitBounds([[34,-25],[72,45]],{padding:[4,4],animate:false});
+   setTimeout(()=>map.invalidateSize(),100);
+ }catch(e){
+   map.setView([52,15],4);
+ }
+}
 function submitText(){const target=byId("answerInput").dataset.target;const correct=target==="capital"?current.capital:current.country;checkValue(byId("answerInput").value,correct,target)}
-function checkValue(val,correct,target){if(norm(val)===norm(correct))markCorrect(target);else markWrong(`Falsch. Richtig ist: ${correct}`,target)}
-function markCorrect(target){score++;updateProgress(target,true);byId("feedback").textContent="Richtig!";byId("feedback").className="feedback correct";setStats();setTimeout(()=>afterMainCorrect(),500)}
-function markWrong(msg,target){mistakes++;updateProgress(target,false);if(current&&!wrongQueue.includes(current))wrongQueue.push(current);byId("feedback").textContent=msg;byId("feedback").className="feedback wrong";setStats();setTimeout(()=>{qIndex++;nextQuestion()},1100)}
-function afterMainCorrect(){if(activeMode==="map"&&phase==="main"&&opt("askCapitalAfterMap")){phase="capital";byId("taskText").textContent="Zusatzfrage: Wie heißt die Hauptstadt von";byId("question").textContent=current.country;byId("inputArea").classList.remove("hidden");byId("answerInput").value="";byId("answerInput").dataset.target="capital";byId("answerInput").focus();return}if(activeMode==="map"&&phase==="main"&&!opt("askCapitalAfterMap")&&opt("askFlagAfterCapital")){phase="flag";return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country)}if(phase==="capital"&&opt("askFlagAfterCapital")){phase="flag";return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country)}if((activeMode==="capitalWrite"||activeMode==="capitalChoice")&&opt("askFlagAfterCapital")){phase="flag";return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country)}qIndex++;nextQuestion()}
+function checkValue(val,correct,target){
+ const isCorrect = norm(val) === norm(correct);
+
+ if(isCorrect){
+   score++;
+   updateProgress(target,true);
+   byId("feedback").textContent = "Richtig!";
+   byId("feedback").className = "feedback correct";
+   setStats();
+
+   const delay = (phase==="capital" || phase==="flag") ? 1200 : 700;
+   setTimeout(()=>afterMainCorrect(), delay);
+ }else{
+   mistakes++;
+   updateProgress(target,false);
+   if(current && !wrongQueue.includes(current)) wrongQueue.push(current);
+
+   if(target==="capital"){
+     byId("feedback").textContent = "Falsch. Richtig wäre: " + correct;
+   }else{
+     byId("feedback").textContent = "Falsch. Richtig ist: " + correct;
+   }
+
+   byId("feedback").className = "feedback wrong";
+   setStats();
+
+   const delay = (phase==="capital" || phase==="flag") ? 1600 : 1200;
+   setTimeout(()=>{qIndex++;nextQuestion()}, delay);
+ }
+}
+function markCorrect(target){
+ score++;
+ updateProgress(target,true);
+ byId("feedback").textContent="Richtig!";
+ byId("feedback").className="feedback correct";
+ setStats();
+
+ const delay = (phase==="capital" || phase==="flag") ? 1200 : 700;
+ setTimeout(()=>afterMainCorrect(), delay);
+}
+function markWrong(msg,target){
+ mistakes++;
+ updateProgress(target,false);
+ if(current&&!wrongQueue.includes(current)) wrongQueue.push(current);
+ byId("feedback").textContent=msg;
+ byId("feedback").className="feedback wrong";
+ setStats();
+
+ const delay = (phase==="capital" || phase==="flag") ? 1600 : 1200;
+ setTimeout(()=>{qIndex++;nextQuestion()}, delay);
+}
+function afterMainCorrect(){
+ if(activeMode==="map"&&phase==="main"&&opt("askCapitalAfterMap")){
+   phase="capital";
+   byId("feedback").textContent="";
+   byId("feedback").className="feedback";
+
+   // Keep the original map title above the map.
+   byId("taskText").textContent="Wo liegt dieses Land?";
+   byId("question").textContent=current.country;
+
+   // Show the follow-up question below the map, directly above the answer field.
+   const follow=byId("mapFollowupQuestion");
+   if(follow){
+     follow.innerHTML =
+       '<div class="followTitle">Zusatzfrage</div>' +
+       '<div class="followQuestion">Wie heißt die Hauptstadt von <strong>' + current.country + '</strong>?</div>';
+     follow.classList.remove("hidden");
+   }
+
+   byId("mapArea").classList.remove("hidden");
+   byId("inputArea").classList.remove("hidden");
+   byId("answerInput").value="";
+   byId("answerInput").dataset.target="capital";
+   byId("answerInput").focus();
+   return;
+ }
+
+ if(activeMode==="map"&&phase==="main"&&!opt("askCapitalAfterMap")&&opt("askFlagAfterCapital")){
+   phase="flag";
+   return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country);
+ }
+
+ if(phase==="capital"&&opt("askFlagAfterCapital")){
+   phase="flag";
+   return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country);
+ }
+
+ if((activeMode==="capitalWrite"||activeMode==="capitalChoice")&&opt("askFlagAfterCapital")){
+   phase="flag";
+   return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country);
+ }
+
+ qIndex++;
+ nextQuestion();
+}
 function updateProgress(target,ok){if(!current)return;initProgress(current);const p=progress[current.country];if(target==="capital")p.capitalOK+=ok?1:0;else if(target==="flag"||target==="country")p.flagOK+=ok?1:0;else if(target==="map")p.mapOK+=ok?1:0;if(!ok)p.wrong++;saveProgress()}
 function skip(){markWrong("Übersprungen. Richtig: "+(current.capital||current.country),"capital")}
 function finish(){stopElapsedTimer();if(map){map.remove();map=null}byId("game").classList.add("hidden");byId("result").classList.remove("hidden");byId("finalText").textContent=`Du hast ${score} Punkte. Fehler: ${mistakes}.`;renderProgress()}
