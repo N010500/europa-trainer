@@ -640,7 +640,7 @@ h1{
       <div class="country-tools">
         <button onclick="selectAll()">Alle</button>
         <button class="secondary" onclick="selectNone()">Keine</button>
-        <button class="green" onclick="selectEasy()">Einfach</button>
+        <button class="green" onclick="selectEasy()">Zu lernen</button>
         
         
         
@@ -747,7 +747,7 @@ function flagUrl(c){return "https://flagcdn.com/w320/"+c.flagCode+".png"} functi
 function initProgress(c){if(!progress[c.country])progress[c.country]={capitalOK:0,flagOK:0,mapOK:0,wrong:0}} function saveProgress(){localStorage.setItem("europaTrainerProgressFinal",JSON.stringify(progress))}
 function getQuestionLimit(){const v=byId("questionCount").value;return v==="all"?9999:Number(v)} function mastery(c){const p=progress[c.country]||{};return (p.capitalOK||0)+(p.flagOK||0)+(p.mapOK||0)-2*(p.wrong||0)}
 function startElapsedTimer(){clearInterval(elapsedInterval);gameStartTime=Date.now();byId("elapsedTime").textContent="00:00";elapsedInterval=setInterval(()=>{const s=Math.floor((Date.now()-gameStartTime)/1000);byId("elapsedTime").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")},1000)} function stopElapsedTimer(){clearInterval(elapsedInterval)}
-function renderCountries(){const grid=byId("countryGrid");grid.innerHTML="";DATA.forEach((c,i)=>{const label=document.createElement("label");label.className="country-label";const cb=document.createElement("input");cb.type="checkbox";cb.className="countryCheck";cb.value=i;cb.checked=!!c.easy;cb.addEventListener("change",updateSelectedCount);label.appendChild(cb);label.appendChild(document.createTextNode(" "+c.country));grid.appendChild(label)});updateSelectedCount()}
+function renderCountries(){const grid=byId("countryGrid");grid.innerHTML="";DATA.forEach((c,i)=>{const label=document.createElement("label");label.className="country-label";const cb=document.createElement("input");cb.type="checkbox";cb.className="countryCheck";cb.value=i;cb.checked=new Set(["Albanien","Belgien","Bulgarien","Dänemark","Deutschland","Finnland","Frankreich","Griechenland","Irland","Italien","Kosovo","Kroatien","Litauen","Luxemburg","Niederlande","Nordmazedonien","Norwegen","Österreich","Portugal","Schweden","Schweiz","Serbien","Slowakei","Slowenien","Spanien","Ukraine","Ungarn","Vereinigtes Königreich","Türkei"]).has(c.country);cb.addEventListener("change",updateSelectedCount);label.appendChild(cb);label.appendChild(document.createTextNode(" "+c.country));grid.appendChild(label)});updateSelectedCount()}
 
 function filterCountries(){
  const q=(byId("countrySearch")?.value||"").toLowerCase().trim();
@@ -771,7 +771,21 @@ function updateSelectedCount(){
  });
 }
 function selectAll(){document.querySelectorAll(".countryCheck").forEach(c=>c.checked=true);updateSelectedCount()} function selectNone(){document.querySelectorAll(".countryCheck").forEach(c=>c.checked=false);updateSelectedCount()}
-function selectEasy(){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.easy)});updateSelectedCount()} function selectRegion(r){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.region===r)});updateSelectedCount()}
+function selectEasy(){
+ const learnCountries = new Set([
+   "Albanien","Belgien","Bulgarien","Dänemark","Deutschland",
+   "Finnland","Frankreich","Griechenland","Irland","Italien",
+   "Kosovo","Kroatien","Litauen","Luxemburg","Niederlande",
+   "Nordmazedonien","Norwegen","Österreich","Portugal",
+   "Schweden","Schweiz","Serbien","Slowakei","Slowenien",
+   "Spanien","Ukraine","Ungarn","Vereinigtes Königreich","Türkei"
+ ]);
+ document.querySelectorAll(".countryCheck").forEach(ch=>{
+   const c=DATA[Number(ch.value)];
+   ch.checked=!!(c && learnCountries.has(c.country));
+ });
+ updateSelectedCount();
+} function selectRegion(r){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.region===r)});updateSelectedCount()}
 function selectGroup(g){const eu=["Belgien","Bulgarien","Dänemark","Deutschland","Estland","Finnland","Frankreich","Griechenland","Irland","Italien","Kroatien","Lettland","Litauen","Luxemburg","Malta","Niederlande","Österreich","Polen","Portugal","Rumänien","Schweden","Slowakei","Slowenien","Spanien","Tschechien","Ungarn"];document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&eu.includes(c.country))});updateSelectedCount()}
 function startGame(){mode=getChecked("mode");selected=Array.from(document.querySelectorAll(".countryCheck:checked")).map(ch=>DATA[Number(ch.value)]);if(selected.length===0){alert("Bitte mindestens ein Land auswählen.");return}selected.forEach(initProgress);if(opt("onlyWrong")){selected=selected.filter(c=>progress[c.country]&&progress[c.country].wrong>0);if(selected.length===0){alert("Es gibt noch keine falsch beantworteten Länder.");return}}if(opt("weakestFirst"))questions=[...selected].sort((a,b)=>mastery(a)-mastery(b));else if(opt("randomOrder"))questions=shuffle([...selected]);else questions=[...selected];questions=questions.slice(0,Math.min(getQuestionLimit(),questions.length));wrongQueue=[];qIndex=0;score=0;mistakes=0;byId("setup").classList.add("hidden");byId("result").classList.add("hidden");byId("game").classList.remove("hidden");byId("total").textContent=questions.length;startElapsedTimer();nextQuestion()}
 function clearUI(){
