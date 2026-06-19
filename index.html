@@ -480,6 +480,70 @@ h1{
   background:#f8fafc!important;
 }
 
+
+/* Clean flag display */
+.flagChoiceImg{
+  width:120px!important;
+  height:78px!important;
+  object-fit:cover!important;
+  border:none!important;
+  border-radius:0!important;
+  background:transparent!important;
+  display:block!important;
+  margin:auto!important;
+}
+.flagAnswerBtn{
+  min-height:92px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:8px!important;
+  overflow:hidden!important;
+}
+.realFlag{
+  width:min(360px,80vw)!important;
+  height:auto!important;
+  max-height:220px!important;
+  object-fit:contain!important;
+  border:none!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:4px 4px 0 rgba(0,0,0,.25);
+}
+
+
+/* Borderless clean flags */
+.flagAnswerBtn,
+.answerBtn.flagAnswerBtn{
+  border:none!important;
+  box-shadow:none!important;
+  background:transparent!important;
+  padding:0!important;
+  min-height:96px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.flagAnswerBtn:hover{
+  background:rgba(255,255,255,.12)!important;
+}
+.flagChoiceImg{
+  width:140px!important;
+  height:90px!important;
+  object-fit:cover!important;
+  border:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  background:transparent!important;
+  display:block!important;
+}
+.realFlag{
+  border:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+
 </style>
 </head>
 <body>
@@ -556,7 +620,19 @@ const GEO_DATA = {"type":"FeatureCollection","features":[{"type":"Feature","prop
 let selected=[], questions=[], wrongQueue=[], qIndex=0, score=0, mistakes=0, current=null, phase="main", mode="", activeMode="", map=null, geoLayer=null, mapAnswered=false, elapsedInterval=null, gameStartTime=null;
 let progress=JSON.parse(localStorage.getItem("europaTrainerProgressFinal")||"{}");
 function byId(id){return document.getElementById(id)} function opt(id){const e=byId(id);return !!(e&&e.checked)}
-function norm(t){return (t||"").toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ß/g,"ss").replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ")}
+function norm(t){
+ return (t||"")
+   .toLowerCase()
+   .trim()
+   .replace(/ä/g,"ae")
+   .replace(/ö/g,"oe")
+   .replace(/ü/g,"ue")
+   .replace(/ß/g,"ss")
+   .normalize("NFD")
+   .replace(/[\u0300-\u036f]/g,"")
+   .replace(/[^a-z0-9 ]/g,"")
+   .replace(/\s+/g," ");
+}
 function shuffle(a){return a.map(v=>({v,s:Math.random()})).sort((x,y)=>x.s-y.s).map(x=>x.v)} function getChecked(n){const e=document.querySelector(`input[name="${n}"]:checked`);return e?e.value:"capitalWrite"}
 function flagUrl(c){return "https://flagcdn.com/w320/"+c.flagCode+".png"} function flagImg(c,cls="realFlag"){return `<img class="${cls}" src="${flagUrl(c)}" alt="Flagge von ${c.country}" loading="lazy">`}
 function initProgress(c){if(!progress[c.country])progress[c.country]={capitalOK:0,flagOK:0,mapOK:0,wrong:0}} function saveProgress(){localStorage.setItem("europaTrainerProgressFinal",JSON.stringify(progress))}
@@ -609,8 +685,41 @@ function renderPhase(){activeMode=mode==="mixed"?shuffle(["capitalWrite","capita
 function renderText(task,q,target){byId("taskText").textContent=task;byId("question").textContent=q;byId("inputArea").classList.remove("hidden");byId("answerInput").value="";byId("answerInput").dataset.target=target;byId("answerInput").focus()}
 function renderFlagText(task,target){byId("taskText").textContent=task;byId("flagDisplay").innerHTML=flagImg(current);byId("flagDisplay").classList.remove("hidden");byId("inputArea").classList.remove("hidden");byId("answerInput").value="";byId("answerInput").dataset.target=target;byId("answerInput").focus()}
 function renderChoice(task,q,target,correct,pool){byId("taskText").textContent=task;byId("question").textContent=q;byId("choiceArea").classList.remove("hidden");let opts=shuffle([...new Set(pool.filter(x=>x!==correct))]).slice(0,3);opts=shuffle([correct,...opts]);opts.forEach(o=>{let b=document.createElement("button");b.className="answerBtn";b.textContent=o;b.onclick=()=>checkValue(o,correct,target);byId("choiceArea").appendChild(b)})}
-function renderFlagChoice(task,target){byId("taskText").textContent=task;byId("flagDisplay").innerHTML=flagImg(current);byId("flagDisplay").classList.remove("hidden");byId("choiceArea").classList.remove("hidden");let opts=shuffle(selected.filter(c=>c.country!==current.country)).slice(0,3).map(c=>c.country);opts=shuffle([current.country,...opts]);opts.forEach(o=>{let b=document.createElement("button");b.className="answerBtn";b.textContent=o;b.onclick=()=>checkValue(o,current.country,target);byId("choiceArea").appendChild(b)})}
-function renderFlagImageChoice(task,q){byId("taskText").textContent=task;byId("question").textContent=q;byId("choiceArea").classList.remove("hidden");let opts=shuffle([current,...shuffle(selected.filter(c=>c.country!==current.country)).slice(0,3)]);opts.forEach(c=>{let b=document.createElement("button");b.className="answerBtn";b.innerHTML=flagImg(c,"flagChoiceImg");b.onclick=()=>checkValue(c.country,current.country,"flag");byId("choiceArea").appendChild(b)})}
+function renderFlagChoice(task,target){
+ byId("choiceArea").innerHTML="";
+ byId("taskText").textContent=task;
+ byId("flagDisplay").innerHTML=flagImg(current);
+ byId("flagDisplay").classList.remove("hidden");
+ byId("choiceArea").classList.remove("hidden");
+
+ let opts=shuffle(selected.filter(c=>c.country!==current.country)).slice(0,3).map(c=>c.country);
+ opts=shuffle([current.country,...opts]);
+ opts.forEach(o=>{
+   let b=document.createElement("button");
+   b.className="answerBtn";
+   b.textContent=o;
+   b.onclick=()=>checkValue(o,current.country,target);
+   byId("choiceArea").appendChild(b);
+ });
+}
+function renderFlagImageChoice(task,q){
+ byId("choiceArea").innerHTML="";
+ byId("choiceArea").classList.remove("hidden");
+ byId("inputArea").classList.add("hidden");
+ byId("flagDisplay").classList.add("hidden");
+
+ byId("taskText").textContent=task;
+ byId("question").textContent=q;
+
+ let opts=shuffle([current,...shuffle(selected.filter(c=>c.country!==current.country)).slice(0,3)]);
+ opts.forEach(c=>{
+   let b=document.createElement("button");
+   b.className="answerBtn flagAnswerBtn";
+   b.innerHTML=flagImg(c,"flagChoiceImg");
+   b.onclick=()=>checkValue(c.country,current.country,"flag");
+   byId("choiceArea").appendChild(b);
+ });
+}
 function renderMap(){
  byId("taskText").textContent="Wo liegt dieses Land?";
  byId("question").textContent=current.country;
@@ -741,7 +850,18 @@ function renderMap(){
 }
 function submitText(){const target=byId("answerInput").dataset.target;const correct=target==="capital"?current.capital:current.country;checkValue(byId("answerInput").value,correct,target)}
 function checkValue(val,correct,target){
- const isCorrect = norm(val) === norm(correct);
+ function variants(x){
+   const n = norm(x);
+   const noE = n.replace(/ae/g,"a").replace(/oe/g,"o").replace(/ue/g,"u");
+   return new Set([n,noE]);
+ }
+
+ const userVariants = variants(val);
+ const correctVariants = variants(correct);
+ let isCorrect = false;
+ userVariants.forEach(v=>{
+   if(correctVariants.has(v)) isCorrect = true;
+ });
 
  if(isCorrect){
    score++;
@@ -796,12 +916,9 @@ function afterMainCorrect(){
    phase="capital";
    byId("feedback").textContent="";
    byId("feedback").className="feedback";
-
-   // Keep the original map title above the map.
    byId("taskText").textContent="Wo liegt dieses Land?";
    byId("question").textContent=current.country;
 
-   // Show the follow-up question below the map, directly above the answer field.
    const follow=byId("mapFollowupQuestion");
    if(follow){
      follow.innerHTML =
@@ -828,9 +945,10 @@ function afterMainCorrect(){
    return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country);
  }
 
- if((activeMode==="capitalWrite"||activeMode==="capitalChoice")&&opt("askFlagAfterCapital")){
-   phase="flag";
-   return renderFlagImageChoice("Zusatzfrage: Welche Flagge gehört zu:",current.country);
+ // If the flag follow-up itself was answered, move on.
+ if(phase==="flag"){
+   qIndex++;
+   return nextQuestion();
  }
 
  qIndex++;
