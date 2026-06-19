@@ -445,6 +445,41 @@ h1{
   }
 }
 
+
+/* Smaller map for iPad */
+#leafletMap{
+  height:calc(100vh - 330px)!important;
+  min-height:360px!important;
+  max-height:560px!important;
+}
+@media (min-width:760px) and (max-width:1199px) and (orientation:landscape){
+  #leafletMap{
+    height:calc(100vh - 285px)!important;
+    min-height:330px!important;
+    max-height:470px!important;
+  }
+}
+@media (min-width:760px) and (max-width:1199px) and (orientation:portrait){
+  #leafletMap{
+    height:48vh!important;
+    min-height:360px!important;
+    max-height:520px!important;
+  }
+}
+@media (max-width:520px){
+  #leafletMap{
+    height:42vh!important;
+    min-height:300px!important;
+    max-height:420px!important;
+  }
+}
+
+
+#leafletMap,
+.leaflet-container{
+  background:#f8fafc!important;
+}
+
 </style>
 </head>
 <body>
@@ -614,7 +649,7 @@ function renderMap(){
    zoomControl:true,
    attributionControl:false,
    preferCanvas:false,
-   maxBounds:[[30,-32],[75,52]],
+   maxBounds:[[30,-20],[75,40]],
    maxBoundsViscosity:.85
  }).setView([52,15],4);
 
@@ -698,8 +733,8 @@ function renderMap(){
  });
 
  try{
-   map.fitBounds([[34,-25],[72,45]],{padding:[4,4],animate:false});
-   setTimeout(()=>map.invalidateSize(),100);
+   map.fitBounds([[35,-12],[72,34]],{padding:[8,8],animate:false});
+   setTimeout(()=>{map.invalidateSize(); if(geoLayer){map.fitBounds([[35,-12],[72,34]],{padding:[8,8],animate:false});}},100);
  }catch(e){
    map.setView([52,15],4);
  }
