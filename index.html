@@ -286,6 +286,165 @@ h1{
   text-shadow:4px 4px 0 #2b2418,8px 8px 0 rgba(0,0,0,.55)!important;
 }
 
+
+/* Make country selection pane larger on home screen */
+.setupTwoCols{
+  grid-template-columns:minmax(430px,48%) minmax(420px,52%)!important;
+  gap:14px!important;
+}
+.countriesPanel{
+  min-height:calc(100vh - 150px)!important;
+}
+.country-grid{
+  max-height:calc(100vh - 330px)!important;
+  min-height:480px!important;
+  grid-template-columns:repeat(auto-fit,minmax(185px,1fr))!important;
+}
+.country-label{
+  padding:7px 9px!important;
+  min-height:34px!important;
+}
+.country-tools{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:6px!important;
+}
+.country-toggle{
+  margin-top:6px!important;
+}
+.startActions{
+  margin-top:8px!important;
+}
+@media(max-width:900px){
+  .setupTwoCols{
+    grid-template-columns:1fr!important;
+  }
+  .country-grid{
+    max-height:520px!important;
+    min-height:420px!important;
+  }
+}
+@media(max-width:520px){
+  .country-grid{
+    min-height:360px!important;
+    max-height:430px!important;
+  }
+}
+
+
+/* Simplified always-visible country selector */
+.country-tools{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  margin-bottom:10px!important;
+}
+.country-toggle,
+.country-collapsible{
+  display:none!important;
+}
+.country-grid{
+  display:grid!important;
+  max-height:calc(100vh - 260px)!important;
+  min-height:560px!important;
+}
+@media(max-width:900px){
+  .country-grid{
+    min-height:460px!important;
+    max-height:560px!important;
+  }
+}
+@media(max-width:520px){
+  .country-grid{
+    min-height:380px!important;
+    max-height:480px!important;
+  }
+}
+
+
+/* iPad optimized home screen */
+.setupTwoCols{
+  grid-template-columns:minmax(520px,60%) minmax(340px,40%)!important;
+  gap:16px!important;
+}
+h1{
+  font-size:clamp(2.4rem,5vw,4.4rem)!important;
+  margin-top:6px!important;
+}
+.titleSub{
+  font-size:clamp(1.1rem,2vw,1.7rem)!important;
+}
+.countrySearch{
+  width:100%;
+  box-sizing:border-box;
+  margin:0 0 8px 0;
+  padding:10px 12px;
+  font-size:1rem;
+  border-radius:0!important;
+  border:3px solid #5b3a1e!important;
+  background:#fff8dc!important;
+}
+.selectedStatus{
+  color:#fff8dc;
+  font-weight:900;
+  text-shadow:2px 2px 0 #2b2418;
+  margin:4px 0 8px;
+}
+.country-grid{
+  max-height:calc(100vh - 285px)!important;
+  min-height:560px!important;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important;
+}
+.country-label{
+  transition:background .12s ease, transform .08s ease;
+}
+.country-label.selectedCountry{
+  background:#3fa34d!important;
+  color:white!important;
+  border-color:#1f5f2a!important;
+  font-weight:900!important;
+}
+.country-label.selectedCountry:hover{
+  background:#46b957!important;
+}
+.country-label input{
+  transform:scale(1.15);
+}
+.rightPanel{
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100vh - 160px);
+}
+.modePanel,.optionsPanel{
+  flex:0 0 auto;
+}
+.startActions{
+  margin-top:auto!important;
+  padding-top:14px!important;
+}
+.startMain{
+  width:100%!important;
+  min-height:64px!important;
+  font-size:1.35rem!important;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.resetSmall{
+  align-self:center!important;
+  opacity:.75!important;
+}
+@media(max-width:900px){
+  .setupTwoCols{
+    grid-template-columns:1fr!important;
+  }
+  .rightPanel{
+    min-height:auto!important;
+  }
+  .countriesPanel{order:2!important;}
+  .rightPanel{order:1!important;}
+  .country-grid{
+    min-height:430px!important;
+    max-height:520px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -296,25 +455,21 @@ h1{
 <section id="setup" class="card">
   <div class="setupTwoCols">
     <div class="countriesPanel">
-      <h3>Länder auswählen <span class="muted">(<span id="selectedCount">0</span>)</span></h3>
+      <h3>Länder auswählen</h3>
+      <input id="countrySearch" class="countrySearch" type="text" placeholder="🔍 Land suchen...">
+      <div id="selectedStatus" class="selectedStatus">0 Länder ausgewählt</div>
       <div class="country-tools">
         <button onclick="selectAll()">Alle</button>
         <button class="secondary" onclick="selectNone()">Keine</button>
         <button class="green" onclick="selectEasy()">Einfach</button>
-        <button class="secondary" onclick="selectRegion('Westeuropa')">Westeuropa</button>
-        <button class="secondary" onclick="selectRegion('Nordeuropa')">Nordeuropa</button>
-        <button class="secondary" onclick="selectRegion('Südeuropa')">Südeuropa</button>
-        <button class="secondary" onclick="selectRegion('Osteuropa')">Osteuropa</button>
+        
+        
+        
+        
         <button class="secondary" onclick="selectGroup('eu')">EU</button>
       </div>
-      <details class="country-collapsible" open>
-        <summary class="country-toggle">Länderliste anzeigen / ausblenden</summary>
-        <div id="countryGrid" class="country-grid"></div>
-      </details>
-      <div class="startActions">
-        <button id="startBtn" class="green startMain" onclick="startGame()">Spiel starten</button>
-        <button class="red resetSmall" onclick="resetProgress()">Fortschritt löschen</button>
-      </div>
+      <div id="countryGrid" class="country-grid"></div>
+      
     </div>
 
     <div class="rightPanel">
@@ -339,7 +494,11 @@ h1{
         <label class="option"><input id="onlyWrong" type="checkbox"> Nur früher falsch beantwortete Länder</label>
         <label class="option"><input id="weakestFirst" type="checkbox"> Schwächste Länder zuerst</label>
         <label class="option"><input id="randomOrder" type="checkbox" checked> Zufällige Reihenfolge</label>
+      <div class="startActions">
+        <button id="startBtn" class="green startMain" onclick="startGame()">Spiel starten</button>
+        <button class="red resetSmall" onclick="resetProgress()">Fortschritt löschen</button>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -369,7 +528,28 @@ function initProgress(c){if(!progress[c.country])progress[c.country]={capitalOK:
 function getQuestionLimit(){const v=byId("questionCount").value;return v==="all"?9999:Number(v)} function mastery(c){const p=progress[c.country]||{};return (p.capitalOK||0)+(p.flagOK||0)+(p.mapOK||0)-2*(p.wrong||0)}
 function startElapsedTimer(){clearInterval(elapsedInterval);gameStartTime=Date.now();byId("elapsedTime").textContent="00:00";elapsedInterval=setInterval(()=>{const s=Math.floor((Date.now()-gameStartTime)/1000);byId("elapsedTime").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")},1000)} function stopElapsedTimer(){clearInterval(elapsedInterval)}
 function renderCountries(){const grid=byId("countryGrid");grid.innerHTML="";DATA.forEach((c,i)=>{const label=document.createElement("label");label.className="country-label";const cb=document.createElement("input");cb.type="checkbox";cb.className="countryCheck";cb.value=i;cb.checked=!!c.easy;cb.addEventListener("change",updateSelectedCount);label.appendChild(cb);label.appendChild(document.createTextNode(" "+c.country));grid.appendChild(label)});updateSelectedCount()}
-function updateSelectedCount(){const n=document.querySelectorAll(".countryCheck:checked").length;byId("selectedCount").textContent=n;byId("startBtn").disabled=n<1}
+
+function filterCountries(){
+ const q=(byId("countrySearch")?.value||"").toLowerCase().trim();
+ document.querySelectorAll(".country-label").forEach(label=>{
+   label.style.display = label.textContent.toLowerCase().includes(q) ? "flex" : "none";
+ });
+}
+
+function updateSelectedCount(){
+ const checked=document.querySelectorAll(".countryCheck:checked");
+ const n=checked.length;
+ const selectedCount=byId("selectedCount");
+ if(selectedCount) selectedCount.textContent=n;
+ const selectedStatus=byId("selectedStatus");
+ if(selectedStatus) selectedStatus.textContent=n+" Länder ausgewählt";
+ byId("startBtn").disabled=n<1;
+
+ document.querySelectorAll(".country-label").forEach(label=>{
+   const cb=label.querySelector(".countryCheck");
+   label.classList.toggle("selectedCountry", !!(cb && cb.checked));
+ });
+}
 function selectAll(){document.querySelectorAll(".countryCheck").forEach(c=>c.checked=true);updateSelectedCount()} function selectNone(){document.querySelectorAll(".countryCheck").forEach(c=>c.checked=false);updateSelectedCount()}
 function selectEasy(){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.easy)});updateSelectedCount()} function selectRegion(r){document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&c.region===r)});updateSelectedCount()}
 function selectGroup(g){const eu=["Belgien","Bulgarien","Dänemark","Deutschland","Estland","Finnland","Frankreich","Griechenland","Irland","Italien","Kroatien","Lettland","Litauen","Luxemburg","Malta","Niederlande","Österreich","Polen","Portugal","Rumänien","Schweden","Slowakei","Slowenien","Spanien","Tschechien","Ungarn"];document.querySelectorAll(".countryCheck").forEach(ch=>{const c=DATA[Number(ch.value)];ch.checked=!!(c&&eu.includes(c.country))});updateSelectedCount()}
@@ -627,6 +807,6 @@ function finish(){stopElapsedTimer();if(map){map.remove();map=null}byId("game").
 function renderProgress(){let rows=Object.keys(progress).sort().map(k=>{const p=progress[k];const cap=p.capitalOK||0,fl=p.flagOK||0,mp=p.mapOK||0,wrong=p.wrong||0;const total=cap+fl+mp+wrong;const m=total?Math.round(((cap+fl+mp)/Math.max(1,total))*100):0;return `<tr><td>${k}</td><td>${cap}</td><td>${fl}</td><td>${mp}</td><td>${m}%</td><td>${wrong}</td></tr>`}).join("");byId("progressView").innerHTML=`<table class="progressTable"><tr><th>Land</th><th>Hauptstadt</th><th>Flagge</th><th>Karte</th><th>Mastery</th><th>Fehler</th></tr>${rows}</table>`}
 function resetProgress(){if(confirm("Fortschritt wirklich löschen?")){progress={};saveProgress();alert("Fortschritt gelöscht.")}}
 function backToSetup(){stopElapsedTimer();if(map){map.remove();map=null}byId("game").classList.add("hidden");byId("result").classList.add("hidden");byId("setup").classList.remove("hidden")}
-document.addEventListener("DOMContentLoaded",()=>{renderCountries();const input=byId("answerInput");if(input)input.addEventListener("keydown",e=>{if(e.key==="Enter")submitText()})})
+document.addEventListener("DOMContentLoaded",()=>{renderCountries();const input=byId("answerInput");if(input)input.addEventListener("keydown",e=>{if(e.key==="Enter")submitText()}); const cs=byId("countrySearch"); if(cs)cs.addEventListener("input",filterCountries)})
 </script>
 </body></html>
