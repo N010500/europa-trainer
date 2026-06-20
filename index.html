@@ -624,6 +624,16 @@ h1{
   color:white!important;
 }
 
+
+.smallActions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.statSortBar{display:flex;align-items:center;gap:8px;margin:8px 0 12px;flex-wrap:wrap}
+.statSortBar label{font-weight:900}
+.statPct{font-weight:900}
+.statPct.good{color:#16a34a}
+.statPct.mid{color:#f59e0b}
+.statPct.low{color:#dc2626}
+.progressTable th{cursor:pointer}
+.progressTable td,.progressTable th{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -704,7 +714,7 @@ h1{
         <label class="option"><input id="randomOrder" type="checkbox" checked> Zufällige Reihenfolge</label>
       <div class="startActions">
         <button id="startBtn" class="green startMain" onclick="startGame()">Spiel starten</button>
-        <button class="red resetSmall" onclick="resetProgress()">Fortschritt löschen</button>
+        <div class="smallActions"><button class="secondary resetSmall" onclick="showStatistics()">Statistik einsehen</button><button class="red resetSmall" onclick="resetProgress()">Fortschritt löschen</button></div>
       </div>
     </div>
     </div>
@@ -744,7 +754,13 @@ function norm(t){
 }
 function shuffle(a){return a.map(v=>({v,s:Math.random()})).sort((x,y)=>x.s-y.s).map(x=>x.v)} function getChecked(n){const e=document.querySelector(`input[name="${n}"]:checked`);return e?e.value:"capitalWrite"}
 function flagUrl(c){return "https://flagcdn.com/w320/"+c.flagCode+".png"} function flagImg(c,cls="realFlag"){return `<img class="${cls}" src="${flagUrl(c)}" alt="Flagge von ${c.country}" loading="lazy">`}
-function initProgress(c){if(!progress[c.country])progress[c.country]={capitalOK:0,flagOK:0,mapOK:0,wrong:0}} function saveProgress(){localStorage.setItem("europaTrainerProgressFinal",JSON.stringify(progress))}
+function initProgress(c){
+ if(!progress[c.country])progress[c.country]={};
+ const p=progress[c.country];
+ ["countryOK","countryTotal","countryWrong","capitalOK","capitalTotal","capitalWrong","flagOK","flagTotal","flagWrong","mapOK","mapTotal","mapWrong","wrong"].forEach(k=>{
+   if(typeof p[k]!=="number")p[k]=0;
+ });
+} function saveProgress(){localStorage.setItem("europaTrainerProgressFinal",JSON.stringify(progress))}
 function getQuestionLimit(){const v=byId("questionCount").value;return v==="all"?9999:Number(v)} function mastery(c){const p=progress[c.country]||{};return (p.capitalOK||0)+(p.flagOK||0)+(p.mapOK||0)-2*(p.wrong||0)}
 function startElapsedTimer(){clearInterval(elapsedInterval);gameStartTime=Date.now();byId("elapsedTime").textContent="00:00";elapsedInterval=setInterval(()=>{const s=Math.floor((Date.now()-gameStartTime)/1000);byId("elapsedTime").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")},1000)} function stopElapsedTimer(){clearInterval(elapsedInterval)}
 function renderCountries(){const grid=byId("countryGrid");grid.innerHTML="";DATA.forEach((c,i)=>{const label=document.createElement("label");label.className="country-label";const cb=document.createElement("input");cb.type="checkbox";cb.className="countryCheck";cb.value=i;cb.checked=new Set(["Albanien","Belgien","Bulgarien","Dänemark","Deutschland","Finnland","Frankreich","Griechenland","Irland","Italien","Kosovo","Kroatien","Litauen","Luxemburg","Niederlande","Nordmazedonien","Norwegen","Österreich","Portugal","Schweden","Schweiz","Serbien","Slowakei","Slowenien","Spanien","Ukraine","Ungarn","Vereinigtes Königreich","Türkei"]).has(c.country);cb.addEventListener("change",updateSelectedCount);label.appendChild(cb);label.appendChild(document.createTextNode(" "+c.country));grid.appendChild(label)});updateSelectedCount()}
@@ -1186,15 +1202,143 @@ function updateProgress(target,ok){
  if(!current)return;
  initProgress(current);
  const p=progress[current.country];
- if(target==="capital")p.capitalOK+=ok?1:0;
- else if(target==="flag"||target==="country")p.flagOK+=ok?1:0;
- else if(target==="map")p.mapOK+=ok?1:0;
+
+ if(target==="country"){
+   p.countryTotal++;
+   if(ok)p.countryOK++;
+   else p.countryWrong++;
+ }else if(target==="capital"){
+   p.capitalTotal++;
+   if(ok)p.capitalOK++;
+   else p.capitalWrong++;
+ }else if(target==="flag"){
+   p.flagTotal++;
+   if(ok)p.flagOK++;
+   else p.flagWrong++;
+ }else if(target==="map"){
+   p.mapTotal++;
+   if(ok)p.mapOK++;
+   else p.mapWrong++;
+ }
+
  if(!ok)p.wrong++;
  saveProgress();
 }
-function skip(){markWrong("Übersprungen. Richtig: "+(current.capital||current.country),"capital")}
-function finish(){stopElapsedTimer();if(map){map.remove();map=null}byId("game").classList.add("hidden");byId("result").classList.remove("hidden");byId("finalText").textContent=`Du hast ${score} Punkte. Fehler: ${mistakes}.`;renderProgress()}
-function renderProgress(){let rows=Object.keys(progress).sort().map(k=>{const p=progress[k];const cap=p.capitalOK||0,fl=p.flagOK||0,mp=p.mapOK||0,wrong=p.wrong||0;const total=cap+fl+mp+wrong;const m=total?Math.round(((cap+fl+mp)/Math.max(1,total))*100):0;return `<tr><td>${k}</td><td>${cap}</td><td>${fl}</td><td>${mp}</td><td>${m}%</td><td>${wrong}</td></tr>`}).join("");byId("progressView").innerHTML=`<table class="progressTable"><tr><th>Land</th><th>Hauptstadt</th><th>Flagge</th><th>Karte</th><th>Mastery</th><th>Fehler</th></tr>${rows}</table>`}
+function skip(){
+ const target=byId("answerInput")?.dataset?.target || (activeMode&&activeMode.includes("map")?"map":"capital");
+ markWrong("Übersprungen. Richtig: "+(current.capital||current.country),target);
+}
+function finish(){
+ stopElapsedTimer();
+ if(map){map.remove();map=null}
+ byId("game").classList.add("hidden");
+ byId("result").classList.remove("hidden");
+ const h=byId("result").querySelector("h2");
+ if(h)h.textContent="Fertig!";
+ byId("finalText").textContent=`Du hast ${score} Punkte. Fehler: ${mistakes}.`;
+ renderProgress();
+}
+function statCell(total,wrong){
+ total=total||0;
+ wrong=wrong||0;
+ return total + "/" + wrong;
+}
+function getStatsRows(){
+ return Object.keys(progress).map(k=>{
+   const p=progress[k]||{};
+
+   const countryTotal=p.countryTotal||0;
+   const countryWrong=p.countryWrong||0;
+
+   const capitalTotal=p.capitalTotal || (p.capitalOK||0);
+   const capitalWrong=p.capitalWrong||0;
+
+   const flagTotal=p.flagTotal || (p.flagOK||0);
+   const flagWrong=p.flagWrong||0;
+
+   const mapTotal=p.mapTotal || (p.mapOK||0);
+   const mapWrong=p.mapWrong||0;
+
+   let total=countryTotal+capitalTotal+flagTotal+mapTotal;
+   let wrong=countryWrong+capitalWrong+flagWrong+mapWrong;
+
+   // Kompatibilität mit alten Fortschritten: alte Fehler waren nur als Gesamtfehler gespeichert.
+   if(total>0 && wrong===0 && (p.wrong||0)>0){
+     wrong=p.wrong||0;
+   }
+
+   const ok=Math.max(0,total-wrong);
+   const pct=total?Math.round(ok*100/total):0;
+
+   return {
+     name:k,
+     countryTotal,countryWrong,
+     capitalTotal,capitalWrong,
+     flagTotal,flagWrong,
+     mapTotal,mapWrong,
+     total,wrong,pct
+   };
+ }).filter(r=>r.total>0);
+}
+function sortStatsRows(rows){
+ const sel=byId("statsSort");
+ const sort=sel?sel.value:"nameAsc";
+ rows=[...rows];
+ if(sort==="pctAsc")rows.sort((a,b)=>a.pct-b.pct || a.name.localeCompare(b.name));
+ else if(sort==="pctDesc")rows.sort((a,b)=>b.pct-a.pct || a.name.localeCompare(b.name));
+ else if(sort==="wrongDesc")rows.sort((a,b)=>b.wrong-a.wrong || a.name.localeCompare(b.name));
+ else if(sort==="totalDesc")rows.sort((a,b)=>b.total-a.total || a.name.localeCompare(b.name));
+ else if(sort==="nameDesc")rows.sort((a,b)=>b.name.localeCompare(a.name));
+ else rows.sort((a,b)=>a.name.localeCompare(b.name));
+ return rows;
+}
+function renderProgress(){
+ let rows=sortStatsRows(getStatsRows());
+ let body=rows.map(r=>{
+   const cls=r.pct>=80?"good":(r.pct>=60?"mid":"low");
+   return `<tr>
+     <td>${r.name}</td>
+     <td>${statCell(r.countryTotal,r.countryWrong)}</td>
+     <td>${statCell(r.capitalTotal,r.capitalWrong)}</td>
+     <td>${statCell(r.flagTotal,r.flagWrong)}</td>
+     <td>${statCell(r.mapTotal,r.mapWrong)}</td>
+     <td>${statCell(r.total,r.wrong)}</td>
+     <td><span class="statPct ${cls}">${r.pct}%</span></td>
+   </tr>`;
+ }).join("");
+
+ if(!body){
+   body='<tr><td colspan="7">Noch keine trainierten Länder.</td></tr>';
+ }
+
+ byId("progressView").innerHTML=
+   `<div class="statSortBar">
+      <label for="statsSort">Sortieren:</label>
+      <select id="statsSort" onchange="renderProgress()">
+        <option value="nameAsc">Trainiert A–Z</option>
+        <option value="nameDesc">Trainiert Z–A</option>
+        <option value="pctAsc">Prozent niedrig zuerst</option>
+        <option value="pctDesc">Prozent hoch zuerst</option>
+        <option value="wrongDesc">Fehler zuerst</option>
+        <option value="totalDesc">Meist trainiert zuerst</option>
+      </select>
+    </div>
+    <table class="progressTable">
+      <tr><th>Trainiert</th><th>Land</th><th>Hauptstadt</th><th>Flagge</th><th>Karte</th><th>Gesamt</th><th>%</th></tr>
+      ${body}
+    </table>`;
+}
+function showStatistics(){
+ stopElapsedTimer();
+ if(map){map.remove();map=null}
+ byId("setup").classList.add("hidden");
+ byId("game").classList.add("hidden");
+ byId("result").classList.remove("hidden");
+ byId("finalText").textContent="";
+ const h=byId("result").querySelector("h2");
+ if(h)h.textContent="Statistik";
+ renderProgress();
+}
 function resetProgress(){if(confirm("Fortschritt wirklich löschen?")){progress={};saveProgress();alert("Fortschritt gelöscht.")}}
 function backToSetup(){stopElapsedTimer();if(map){map.remove();map=null}byId("game").classList.add("hidden");byId("result").classList.add("hidden");byId("setup").classList.remove("hidden")}
 document.addEventListener("DOMContentLoaded",()=>{renderCountries();const input=byId("answerInput");if(input)input.addEventListener("keydown",e=>{if(e.key==="Enter")submitText()}); const cs=byId("countrySearch"); if(cs)cs.addEventListener("input",filterCountries)})
