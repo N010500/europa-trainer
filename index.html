@@ -689,6 +689,216 @@ h1{
 .statPct.low{color:#dc2626}
 .progressTable th{cursor:pointer}
 .progressTable td,.progressTable th{white-space:nowrap}
+
+.discoveryPhotoBox{
+  margin-top:10px;
+  background:#d7c08a;
+  border:3px solid #5b3a1e;
+  padding:8px;
+  box-shadow:3px 3px 0 rgba(0,0,0,.25);
+}
+.discoveryPhoto{
+  width:100%;
+  max-height:420px;
+  object-fit:cover;
+  display:block;
+  border:3px solid #5b3a1e;
+  background:#fff8dc;
+  box-sizing:border-box;
+}
+.discoveryPhotoCaption{
+  font-size:.78rem;
+  font-weight:700;
+  margin-top:5px;
+  color:#2f2419;
+  line-height:1.2;
+}
+.discoveryPhotoCaption a{
+  color:#1d4ed8;
+  text-decoration:underline;
+}
+
+
+.lightboxOverlay{
+ position:fixed; inset:0; background:rgba(0,0,0,.9);
+ display:none; align-items:center; justify-content:center;
+ z-index:99999; cursor:pointer;
+}
+.lightboxOverlay img{
+ max-width:95vw; max-height:95vh; object-fit:contain;
+ border:4px solid white;
+}
+
+
+/* Entdeckermodus redesign: 50/50 real + gaming, compact for iPad */
+.discoverCard{background:#fff8dc!important;color:#2f2419!important;border:4px solid #5b3a1e!important;padding:12px!important;box-shadow:6px 6px 0 rgba(0,0,0,.35)!important;display:block!important}
+.discoverHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.discoverTitle{font-size:clamp(1.6rem,3vw,2.5rem)!important;font-weight:950!important;margin:0!important}
+.discoverCounter{font-weight:900;background:#d7c08a;border:3px solid #5b3a1e;padding:5px 8px}
+.discoverMediaGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.discoverMediaGrid.noGaming{grid-template-columns:1fr}
+.discoverMediaBox{background:#d7c08a;border:3px solid #5b3a1e;padding:7px;box-shadow:3px 3px 0 rgba(0,0,0,.25)}
+.discoverMediaTitle{font-weight:950;margin:0 0 5px}
+.discoverMainPhoto,.discoverGamingPhoto{width:100%;height:clamp(190px,28vh,360px);object-fit:cover;display:block;border:3px solid #5b3a1e;background:#fff8dc;box-sizing:border-box;cursor:zoom-in}
+.discoverMediaGrid.noGaming .discoverMainPhoto{height:clamp(250px,42vh,520px)}
+.discoverPhotoCaption{font-size:.72rem;line-height:1.15;font-weight:800;margin-top:5px;color:#2f2419}
+.discoverInfoGrid{display:grid;grid-template-columns:1.1fr 1fr;gap:10px;align-items:start}
+.discoverQuickFacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:8px}
+.discoverFactBox{background:#d7c08a!important;border:3px solid #5b3a1e!important;padding:8px!important;font-weight:900!important;min-height:48px}
+.memoryBox,.flagBox,.knowBox,.interestBox{background:#d7c08a!important;border:3px solid #5b3a1e!important;padding:9px!important;margin:8px 0!important;font-weight:850}
+.memoryBox{background:#f7d774!important}.memoryBox strong,.flagBox strong,.knowBox strong,.interestBox strong{font-size:1.05rem}
+.discoverSide{display:grid;gap:8px}
+.discoverFlagMini{max-width:150px!important;max-height:95px!important;object-fit:contain!important;display:block!important;margin:0 auto 6px!important;border:0!important;box-shadow:none!important;background:transparent!important}
+.miniMapBox{background:#d7c08a;border:3px solid #5b3a1e;padding:7px}.miniMapTitle{font-weight:950;margin-bottom:5px}
+.miniEuropeMap{width:100%;height:210px;border:3px solid #5b3a1e;background:#f8fafc;box-sizing:border-box}
+.discoverActions{display:flex!important;gap:8px!important;justify-content:space-between!important;flex-wrap:wrap!important;margin-top:10px!important}
+@media(max-width:900px){.discoverMediaGrid{grid-template-columns:1fr!important}.discoverInfoGrid{grid-template-columns:1fr!important}.discoverQuickFacts{grid-template-columns:1fr 1fr!important}.miniEuropeMap{height:180px}}
+@media(max-width:520px){.discoverQuickFacts{grid-template-columns:1fr!important}.discoverMainPhoto,.discoverGamingPhoto{height:210px}}
+
+
+/* Entdeckermodus cleanup: no gaming pictures, better layout */
+.discoverMediaGrid,
+.discoverMediaGrid.noGaming{
+  display:block!important;
+  margin-bottom:12px!important;
+}
+.discoverMediaBox{
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+.discoverMainPhoto{
+  width:100%!important;
+  height:clamp(300px,44vh,560px)!important;
+  max-height:none!important;
+  object-fit:cover!important;
+}
+.discoverGamingPhoto{
+  display:none!important;
+}
+.discoverInfoGrid{
+  grid-template-columns:1fr minmax(300px,38%)!important;
+  gap:12px!important;
+}
+.discoverQuickFacts{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+.memoryBox{
+  font-size:1.05rem!important;
+  line-height:1.35!important;
+}
+.interestBox{
+  line-height:1.35!important;
+}
+.flagBox{
+  text-align:center!important;
+}
+.miniMapBox{
+  cursor:zoom-in;
+}
+.miniEuropeMap{
+  height:clamp(260px,34vh,430px)!important;
+}
+.mapOpenHint{
+  font-size:.78rem;
+  font-weight:850;
+  margin-top:5px;
+  color:#2f2419;
+}
+.mapLightboxContent{
+  width:96vw;
+  height:92vh;
+  background:#fff8dc;
+  border:4px solid white;
+  box-sizing:border-box;
+  padding:8px;
+  cursor:auto;
+}
+.mapLightboxTitle{
+  font-weight:950;
+  color:#2f2419;
+  margin:0 0 6px;
+  font-size:1.1rem;
+}
+.mapLightboxMap{
+  width:100%;
+  height:calc(100% - 36px);
+  border:3px solid #5b3a1e;
+  background:#f8fafc;
+}
+@media(max-width:900px){
+  .discoverInfoGrid{
+    grid-template-columns:1fr!important;
+  }
+  .discoverQuickFacts{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+  .miniEuropeMap{
+    height:260px!important;
+  }
+}
+@media(max-width:620px){
+  .discoverQuickFacts{
+    grid-template-columns:1fr!important;
+  }
+  .discoverMainPhoto{
+    height:300px!important;
+  }
+}
+
+
+/* Fix country photo visibility and map overlay close */
+.discoverMediaBox{
+  display:block!important;
+}
+.discoverMainPhotoFallback{
+  width:100%!important;
+  height:clamp(300px,44vh,560px)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:clamp(2rem,5vw,4rem)!important;
+  font-weight:950!important;
+  background:#d7c08a!important;
+  border:3px solid #5b3a1e!important;
+  color:#2f2419!important;
+  box-sizing:border-box!important;
+}
+.mapLightboxContent{
+  position:relative!important;
+}
+.closeMapBtn{
+  position:absolute;
+  top:8px;
+  right:8px;
+  z-index:100000;
+  background:#dc2626!important;
+  color:white!important;
+  border:3px solid white!important;
+  box-shadow:3px 3px 0 rgba(0,0,0,.35)!important;
+  padding:7px 12px!important;
+  font-size:1rem!important;
+}
+.mapLightboxTitle{
+  padding-right:95px!important;
+}
+
+
+.gameActionBar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  margin-top:10px;
+}
+.gameActionBar button{
+  min-width:120px;
+}
+.discoverActions{
+  display:none!important;
+}
+
 </style>
 </head>
 <body>
@@ -795,7 +1005,12 @@ h1{
   <div id="mapFollowupQuestion" class="mapFollowup hidden"></div>
   <div id="inputArea" class="hidden"><input id="answerInput" type="text" placeholder="Antwort eingeben..." autocomplete="off"><button onclick="submitText()">Prüfen</button></div>
   <div id="feedback" class="feedback"></div><div id="choiceArea" class="answers hidden"></div><div id="neighborArea" class="hidden"></div>
-  <div id="feedback" class="feedback"></div><button class="secondary" onclick="skip()">Überspringen</button><button class="red" onclick="backToSetup()">Beenden / Optionen</button>
+  <div id="gameActionBar" class="gameActionBar">
+  <button id="discoverPrevBtn" class="secondary hidden" onclick="previousDiscovery()">← Zurück</button>
+  <button id="discoverNextBtn" class="green hidden" onclick="nextDiscovery()">Weiter →</button>
+  <button class="secondary" onclick="skip()">Überspringen</button>
+  <button class="red" onclick="backToSetup()">Beenden / Optionen</button>
+</div>
 </section>
 <section id="result" class="card hidden"><h2>Fertig!</h2><p id="finalText"></p><div id="badges"></div><button class="green" onclick="startGame()">Noch einmal</button><button class="secondary" onclick="backToSetup()">Optionen ändern</button><h3>Fortschritt</h3><div id="progressView"></div></section>
 </div>
@@ -921,6 +1136,7 @@ function clearUI(){
  const f=byId("mapFollowupQuestion");
  if(f) f.innerHTML="";
  byId("question").textContent="";
+ updateDiscoverNavButtons();
 }
 function setStats(){byId("score").textContent=score;byId("current").textContent=Math.min(qIndex+1,questions.length);byId("mistakes").textContent=mistakes}
 function nextQuestion(){clearUI();setStats();if(qIndex>=questions.length){if(opt("repeatWrong")&&wrongQueue.length){questions=shuffle(wrongQueue);wrongQueue=[];qIndex=0;byId("total").textContent=questions.length}else return finish()}current=questions[qIndex];phase="main";renderPhase()}
@@ -1209,34 +1425,147 @@ function renderTextBelowMap(target){
 }
 
 
+
+
+function safeAttr(s){return String(s||"").replace(/"/g,"&quot;")}
+function commonsFileUrl(fileName,width=900){return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(fileName) + "?width=" + width}
+function discoveryPhotoSrc(info){return info && info.photo ? commonsFileUrl(info.photo,1200) : ""}
+function gamingPhotoSrc(info){return (info && info.gamingPhoto) ? info.gamingPhoto : "images/gaming/gaming-world.svg"}
+function photoCaption(info){
+ if(!info || !info.photo)return "Bild-Platzhalter, falls das Online-Bild nicht geladen wird.";
+ const caption=info.photoCredit||"Wikimedia Commons";
+ const license=info.photoLicense||"";
+ const source=info.photoSource||"https://commons.wikimedia.org/wiki/File:"+encodeURIComponent(info.photo);
+ return `📸 ${caption}${license ? " · " + license : ""} · <a href="${source}" target="_blank" rel="noopener">Quelle</a>`;
+}
+function makeMiniMap(containerId,c){
+ setTimeout(()=>drawEuropeMapInto(containerId,c,false),50);
+}
+
+function openLightbox(src){
+ let o=document.getElementById('lightboxOverlay');
+ let i=document.getElementById('lightboxImage');
+ if(!o){
+   o=document.createElement("div");
+   o.id="lightboxOverlay";
+   o.className="lightboxOverlay";
+   o.onclick=()=>{o.style.display="none"};
+   i=document.createElement("img");
+   i.id="lightboxImage";
+   o.appendChild(i);
+   document.body.appendChild(o);
+ }
+ i.src=src;
+ o.style.display='flex';
+}
+
+
+function drawEuropeMapInto(containerId,c,interactive){
+ const el=byId(containerId);
+ if(!el || typeof L==="undefined")return;
+ el.innerHTML="";
+ const m=L.map(containerId,{
+   zoomControl:!!interactive,
+   attributionControl:false,
+   dragging:!!interactive,
+   scrollWheelZoom:!!interactive,
+   doubleClickZoom:!!interactive,
+   boxZoom:!!interactive,
+   keyboard:!!interactive,
+   touchZoom:!!interactive
+ }).setView([52,12],3);
+
+ L.rectangle([[30,-22],[72,45]],{
+   color:"#00000000",
+   fillColor:"#f8fafc",
+   fillOpacity:1,
+   interactive:false
+ }).addTo(m);
+
+ const selectedIso=new Set(DATA.map(x=>x.iso3));
+ L.geoJSON(GEO_DATA,{
+   filter:f=>selectedIso.has(f.properties.iso3),
+   style:f=>({
+     color:"#334155",
+     weight:f.properties.iso3===c.iso3?4:1,
+     fillColor:f.properties.iso3===c.iso3?"#ffcc00":"#ffffff",
+     fillOpacity:1
+   })
+ }).addTo(m);
+
+ const target=GEO_DATA.features.find(f=>f.properties.iso3===c.iso3);
+ if(target){
+   const layer=L.geoJSON(target);
+   try{m.fitBounds(layer.getBounds(),{padding:[40,40],maxZoom:interactive?6:4.7,animate:false})}
+   catch(e){m.setView([52,12],3)}
+ }
+ setTimeout(()=>m.invalidateSize(),80);
+ return m;
+}
+function openMapLightbox(countryName, iso3){
+ const c=DATA.find(x=>x.iso3===iso3);
+ if(!c)return;
+ let o=document.getElementById("mapLightboxOverlay");
+ if(!o){
+   o=document.createElement("div");
+   o.id="mapLightboxOverlay";
+   o.className="lightboxOverlay";
+   o.onclick=(e)=>{ if(e.target===o) closeMapLightbox(); };
+   o.innerHTML=`<div class="mapLightboxContent">
+     <button class="closeMapBtn" onclick="closeMapLightbox()">✕ Schließen</button>
+     <div class="mapLightboxTitle"></div>
+     <div id="mapLightboxMap" class="mapLightboxMap"></div>
+   </div>`;
+   document.body.appendChild(o);
+ }
+ o.querySelector(".mapLightboxTitle").textContent="🗺️ "+countryName+" in Europa";
+ o.style.display="flex";
+ drawEuropeMapInto("mapLightboxMap",c,true);
+ document.addEventListener("keydown",mapEscClose);
+}
+
 const DISCOVERY_INFO = {
- "Belgien":{pop:"ca. 11,8 Mio.",area:"30.500 km²",known:"Belgien ist bekannt für Schokolade, Waffeln und Brüssel.",flag:"Schwarz, Gelb und Rot sind die Farben der belgischen Flagge.",gaming:"Belgien wäre in Roblox eine kleine Map mit Städten, Kanälen und Burgen.",sport:"Belgien hat eine sehr starke Fußball-Nationalmannschaft.",music:"In Belgien finden große Musikfestivals statt.",youtube:"Viele Reisevideos zeigen Brüssel, Brügge und belgische Schokolade."},
- "Bulgarien":{pop:"ca. 6,4 Mio.",area:"111.000 km²",known:"Bulgarien hat Berge, Strände am Schwarzen Meer und sehr alte Städte.",flag:"Weiß, Grün und Rot sind die Farben der bulgarischen Flagge.",gaming:"Bulgarien passt gut zu Abenteuer-Maps mit Bergen und Höhlen.",sport:"Fußball und Volleyball sind in Bulgarien beliebt.",music:"Bulgarische Volksmusik hat besondere Stimmen und Rhythmen.",youtube:"Auf YouTube sieht man oft die Schwarzmeerküste und Sofia."},
- "Dänemark":{pop:"ca. 6 Mio.",area:"43.000 km²",known:"Dänemark besteht aus vielen Inseln und ist die Heimat von LEGO.",flag:"Die rote Flagge mit weißem Kreuz gehört zu den ältesten Flaggen der Welt.",gaming:"Für Minecraft ist Dänemark spannend: viele Inseln, Meer und kleine Städte.",sport:"Handball und Fußball sind in Dänemark sehr beliebt.",music:"Dänemark ist bekannt für Popmusik und Festivals.",youtube:"Viele Videos zeigen Kopenhagen, Fahrräder und LEGO."},
- "Deutschland":{pop:"ca. 84 Mio.",area:"357.000 km²",known:"Deutschland ist das bevölkerungsreichste Land der EU.",flag:"Schwarz, Rot und Gold sind die Farben der deutschen Flagge.",gaming:"Deutschland wäre eine große Open-World mit Städten, Wäldern, Burgen und Bergen.",sport:"Fußball ist in Deutschland sehr wichtig.",music:"Viele berühmte Komponisten kamen aus Deutschland.",youtube:"Viele große deutschsprachige YouTube-Kanäle kommen aus Deutschland."},
- "Finnland":{pop:"ca. 5,6 Mio.",area:"338.000 km²",known:"Finnland hat sehr viele Seen und Wälder.",flag:"Das blaue Kreuz steht für Seen und Himmel, der weiße Hintergrund für Schnee.",gaming:"Finnland wäre eine Survival-Map mit Schnee, Seen und Wäldern.",sport:"Eishockey und Wintersport sind in Finnland sehr beliebt.",music:"Finnland ist bekannt für Metal-Musik und starke Bands.",youtube:"Videos aus Finnland zeigen oft Schnee, Sauna und Nordlichter."},
- "Frankreich":{pop:"ca. 68 Mio.",area:"551.000 km²",known:"Paris mit dem Eiffelturm ist weltweit bekannt.",flag:"Blau, Weiß und Rot sind die Nationalfarben Frankreichs.",gaming:"Frankreich wäre eine riesige Open-World mit Bergen, Meer, Burgen und Städten.",sport:"Frankreich gewann die Fußball-WM 1998 und 2018.",music:"Viele bekannte DJs und Musiker kommen aus Frankreich.",youtube:"Reise-YouTuber zeigen oft Paris, die Alpen und Südfrankreich."},
- "Griechenland":{pop:"ca. 10 Mio.",area:"132.000 km²",known:"Griechenland hat viele Inseln und sehr alte Tempel.",flag:"Blau und Weiß erinnern an Meer, Himmel und griechische Tradition.",gaming:"Griechenland wäre eine Abenteuer-Map mit Inseln, Tempeln und Bergen.",sport:"Die Olympischen Spiele stammen aus dem alten Griechenland.",music:"Griechische Musik nutzt oft besondere Saiteninstrumente.",youtube:"Viele Videos zeigen griechische Inseln und die Akropolis."},
- "Irland":{pop:"ca. 5,3 Mio.",area:"70.000 km²",known:"Irland ist bekannt für grüne Landschaften und Klippen.",flag:"Grün, Weiß und Orange sind die Farben der irischen Flagge.",gaming:"Irland wäre eine Fantasy-Map mit grünen Hügeln und alten Burgen.",sport:"Rugby und Gaelic Football sind sehr beliebt.",music:"Irische Musik ist weltweit bekannt.",youtube:"Viele Videos zeigen Dublin, Klippen und grüne Landschaften."},
- "Island":{pop:"ca. 0,4 Mio.",area:"103.000 km²",known:"Island hat Vulkane, Gletscher, Wasserfälle und heiße Quellen.",flag:"Blau, Weiß und Rot erinnern an Meer, Eis und Feuer.",gaming:"Island wäre eine perfekte Minecraft-Map mit Lava, Eis und Wasserfällen.",sport:"Fußball und Handball sind in Island beliebt.",music:"Island hat sehr bekannte Künstler und besondere Musik.",youtube:"Island ist auf YouTube beliebt wegen Vulkane, Wasserfällen und Nordlichtern."},
- "Italien":{pop:"ca. 59 Mio.",area:"302.000 km²",known:"Italien sieht auf der Karte wie ein Stiefel aus.",flag:"Grün, Weiß und Rot sind die Farben der italienischen Flagge.",gaming:"Italien wäre eine Map mit Städten, Vulkanen, Inseln und alten Arenen.",sport:"Fußball ist in Italien extrem beliebt.",music:"Italien ist bekannt für Oper und Popmusik.",youtube:"Viele Videos zeigen Rom, Venedig, Pizza und das Kolosseum."},
- "Luxemburg":{pop:"ca. 0,7 Mio.",area:"2.586 km²",known:"Luxemburg ist klein, aber hat viele Burgen und Täler.",flag:"Rot, Weiß und Hellblau sind die Farben der Luxemburger Flagge.",gaming:"Luxemburg könnte man als kleine Minecraft-Map mit Burgen bauen.",sport:"Fußball und Radfahren sind in Luxemburg beliebt.",music:"In Luxemburg gibt es viele Konzerte und Festivals.",youtube:"Reisevideos zeigen oft Luxemburg-Stadt und Schloss Vianden."},
- "Niederlande":{pop:"ca. 18 Mio.",area:"41.500 km²",known:"Die Niederlande sind bekannt für Fahrräder, Kanäle und Windmühlen.",flag:"Rot, Weiß und Blau sind die Farben der niederländischen Flagge.",gaming:"In Roblox könnte man Amsterdam mit Kanälen und Brücken nachbauen.",sport:"Fußball und Eisschnelllauf sind sehr beliebt.",music:"Viele bekannte DJs kommen aus den Niederlanden.",youtube:"Videos zeigen oft Amsterdam, Fahrräder und Tulpenfelder."},
- "Norwegen":{pop:"ca. 5,6 Mio.",area:"385.000 km²",known:"Norwegen hat Fjorde, Berge und Nordlichter.",flag:"Rot, Weiß und Blau mit Kreuz zeigen die nordische Tradition.",gaming:"Norwegen wäre eine starke Survival-Map mit Bergen, Schnee und Fjorden.",sport:"Wintersport ist in Norwegen sehr stark.",music:"Norwegen ist bekannt für Pop, Elektro und Metal.",youtube:"Viele Videos zeigen Fjorde, Nordlichter und Straßenreisen."},
- "Österreich":{pop:"ca. 9,2 Mio.",area:"84.000 km²",known:"Österreich hat die Alpen und viele berühmte Berge.",flag:"Rot-Weiß-Rot ist eine der bekanntesten Flaggen Europas.",gaming:"Österreich wäre eine Berg-Map mit Schnee, Höhlen und Dörfern.",sport:"Skifahren ist in Österreich sehr wichtig.",music:"Wien ist bekannt für klassische Musik.",youtube:"Viele Videos zeigen Wien, Skifahren und die Alpen."},
- "Polen":{pop:"ca. 37 Mio.",area:"313.000 km²",known:"Polen hat große Städte, Wälder und eine Ostseeküste.",flag:"Weiß und Rot sind die Farben der polnischen Flagge.",gaming:"Polen passt zu einer großen Map mit Städten, Wäldern und Burgen.",sport:"Fußball und Skispringen sind in Polen beliebt.",music:"Polen hat Popmusik und berühmte klassische Komponisten.",youtube:"Videos zeigen oft Krakau, Warschau und polnisches Essen."},
- "Portugal":{pop:"ca. 10,5 Mio.",area:"92.000 km²",known:"Portugal liegt am Atlantik und ist bekannt für Lissabon und die Algarve.",flag:"Grün und Rot mit Wappen sind die Farben Portugals.",gaming:"In Roblox könnte man den Torre de Belém oder Küstenstädte bauen.",sport:"Cristiano Ronaldo kommt aus Portugal.",music:"Portugal ist bekannt für Fado-Musik.",youtube:"Viele Reisevideos zeigen Lissabon, Porto und die Algarve."},
- "Rumänien":{pop:"ca. 19 Mio.",area:"238.000 km²",known:"Rumänien hat die Karpaten und berühmte Burgen.",flag:"Blau, Gelb und Rot sind die Farben der rumänischen Flagge.",gaming:"Rumänien wäre eine Abenteuer-Map mit Bergen, Wäldern und Burgen.",sport:"Fußball und Turnen sind in Rumänien bekannt.",music:"Rumänien hat Popmusik und traditionelle Musik.",youtube:"Videos zeigen oft Schloss Bran und die Karpaten."},
- "Schweden":{pop:"ca. 10,6 Mio.",area:"450.000 km²",known:"Schweden hat viele Wälder, Seen und liegt im Norden Europas.",flag:"Blau mit gelbem Kreuz ist die schwedische Flagge.",gaming:"Minecraft wurde ursprünglich in Schweden entwickelt.",sport:"Eishockey und Fußball sind in Schweden beliebt.",music:"Viele berühmte Popgruppen und Produzenten kommen aus Schweden.",youtube:"Videos zeigen oft Stockholm, Wälder und schwedisches Design."},
- "Schweiz":{pop:"ca. 9 Mio.",area:"41.000 km²",known:"Die Schweiz ist bekannt für Berge, Seen, Uhren und Schokolade.",flag:"Die Schweizer Flagge ist rot mit einem weißen Kreuz.",gaming:"Die Schweiz wäre eine Berg-Map mit Schnee, Tunneln und Seen.",sport:"Skifahren und Fußball sind sehr beliebt.",music:"Die Schweiz hat viele Musikfestivals.",youtube:"Viele Videos zeigen Alpen, Züge und Schokolade."},
- "Spanien":{pop:"ca. 48 Mio.",area:"506.000 km²",known:"Spanien hat Strände, Berge und viele sonnige Städte.",flag:"Rot und Gelb sind die Farben der spanischen Flagge.",gaming:"Spanien wäre eine große Open-World mit Wüsten, Bergen, Küsten und Städten.",sport:"Fußball ist in Spanien extrem beliebt.",music:"Spanien ist bekannt für Flamenco und Popmusik.",youtube:"Videos zeigen oft Barcelona, Madrid und Strände."},
- "Tschechien":{pop:"ca. 10,9 Mio.",area:"79.000 km²",known:"Tschechien ist bekannt für Prag und viele Burgen.",flag:"Weiß, Rot und Blau sind die Farben der tschechischen Flagge.",gaming:"Tschechien wäre eine Burg- und Stadt-Map mit alten Gassen.",sport:"Eishockey ist in Tschechien sehr beliebt.",music:"Prag hat eine lange Musiktradition.",youtube:"Videos zeigen oft Prag, Brücken und Burgen."},
- "Ungarn":{pop:"ca. 9,6 Mio.",area:"93.000 km²",known:"Ungarn ist bekannt für Budapest und die Donau.",flag:"Rot, Weiß und Grün sind die Farben der ungarischen Flagge.",gaming:"Ungarn wäre eine Stadt-Map mit Fluss, Brücken und Thermalbädern.",sport:"Wasserball und Fußball sind in Ungarn bekannt.",music:"Ungarn hat klassische Musik und moderne Popmusik.",youtube:"Videos zeigen oft Budapest und die Donau."},
- "Vereinigtes Königreich":{pop:"ca. 68 Mio.",area:"244.000 km²",known:"London ist bekannt für Big Ben, rote Busse und die Tower Bridge.",flag:"Der Union Jack kombiniert Kreuze verschiedener Landesteile.",gaming:"Das Vereinigte Königreich wäre eine Map mit Städten, Küsten und alten Burgen.",sport:"Fußball ist dort sehr wichtig; viele bekannte Clubs kommen von dort.",music:"Viele berühmte Bands und Sänger kommen aus dem Vereinigten Königreich.",youtube:"Viele große englischsprachige YouTube-Kanäle kommen von dort."},
- "Russland":{pop:"ca. 144 Mio.",area:"17 Mio. km²",known:"Russland ist das größte Land der Welt; ein Teil liegt in Europa.",flag:"Weiß, Blau und Rot sind die Farben der russischen Flagge.",gaming:"Russland wäre eine riesige Open-World mit Schnee, Wäldern, Städten und Bergen.",sport:"Eishockey und Fußball sind in Russland sehr beliebt.",music:"Russland ist bekannt für klassische Musik und Ballett.",youtube:"Videos zeigen oft Moskau, Sankt Petersburg und sehr große Landschaften."},
- "Türkei":{pop:"ca. 85 Mio.",area:"783.000 km²",known:"Ein Teil der Türkei liegt in Europa, der größere Teil in Asien.",flag:"Rot mit weißem Halbmond und Stern ist die türkische Flagge.",gaming:"Die Türkei wäre eine riesige Map mit Städten, Bergen, Meer und alten Ruinen.",sport:"Fußball ist in der Türkei sehr beliebt.",music:"Türkische Popmusik ist sehr bekannt.",youtube:"Videos zeigen oft Istanbul, Basare und die Küste."}
+ "Belgien":{mnemonic:"Brüssel klingt wie „Brösel“: Stell dir belgische Waffel-Brösel in Brüssel vor.",funFact:"Brüssel ist auch ein wichtiger Ort für die Europäische Union.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Bruxelles Grand Place 01.JPG',photoAlt:'Grand-Place in Brüssel',photoCredit:'Grand-Place, Brüssel · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 11,8 Mio.",area:"30.500 km²",known:"Belgien ist bekannt für Schokolade, Waffeln und Brüssel.",flag:"Schwarz, Gelb und Rot sind die Farben der belgischen Flagge.",gaming:"Belgien wäre in Roblox eine kleine Map mit Städten, Kanälen und Burgen.",sport:"Belgien hat eine sehr starke Fußball-Nationalmannschaft.",music:"In Belgien finden große Musikfestivals statt.",youtube:"Viele Reisevideos zeigen Brüssel, Brügge und belgische Schokolade."},
+ "Bulgarien":{mnemonic:"Bulgarien → Sofia: Stell dir ein Sofa in Bulgarien vor. Sofa hilft dir bei Sofia.",funFact:"Sofia ist eine der ältesten Hauptstädte Europas.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Alexander Nevsky Cathedral Sofia 2013.jpg',photoAlt:'Alexander-Newski-Kathedrale in Sofia',photoCredit:'Alexander-Newski-Kathedrale, Sofia · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 6,4 Mio.",area:"111.000 km²",known:"Bulgarien hat Berge, Strände am Schwarzen Meer und sehr alte Städte.",flag:"Weiß, Grün und Rot sind die Farben der bulgarischen Flagge.",gaming:"Bulgarien passt gut zu Abenteuer-Maps mit Bergen und Höhlen.",sport:"Fußball und Volleyball sind in Bulgarien beliebt.",music:"Bulgarische Volksmusik hat besondere Stimmen und Rhythmen.",youtube:"Auf YouTube sieht man oft die Schwarzmeerküste und Sofia."},
+ "Dänemark":{mnemonic:"Dänemark → Kopenhagen: Denk an einen LEGO-Kopf mit Hut in Kopenhagen.",funFact:"LEGO kommt aus Dänemark.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Nyhavn Copenhagen Denmark.jpg',photoAlt:'Nyhavn in Kopenhagen',photoCredit:'Nyhavn, Kopenhagen · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 6 Mio.",area:"43.000 km²",known:"Dänemark besteht aus vielen Inseln und ist die Heimat von LEGO.",flag:"Die rote Flagge mit weißem Kreuz gehört zu den ältesten Flaggen der Welt.",gaming:"Für Minecraft ist Dänemark spannend: viele Inseln, Meer und kleine Städte.",sport:"Handball und Fußball sind in Dänemark sehr beliebt.",music:"Dänemark ist bekannt für Popmusik und Festivals.",youtube:"Viele Videos zeigen Kopenhagen, Fahrräder und LEGO."},
+ "Deutschland":{mnemonic:"Deutschland → Berlin: Der Berliner Bär brüllt: Berlin!",funFact:"Berlin hat ein berühmtes Brandenburger Tor.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Brandenburger Tor abends.jpg',photoAlt:'Brandenburger Tor in Berlin',photoCredit:'Brandenburger Tor, Berlin · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 84 Mio.",area:"357.000 km²",known:"Deutschland ist das bevölkerungsreichste Land der EU.",flag:"Schwarz, Rot und Gold sind die Farben der deutschen Flagge.",gaming:"Deutschland wäre eine große Open-World mit Städten, Wäldern, Burgen und Bergen.",sport:"Fußball ist in Deutschland sehr wichtig.",music:"Viele berühmte Komponisten kamen aus Deutschland.",youtube:"Viele große deutschsprachige YouTube-Kanäle kommen aus Deutschland."},
+ "Finnland":{mnemonic:"Finnland → Helsinki: Ein Helm fährt Ski: Helm-ski hilft bei Helsinki.",funFact:"Finnland hat sehr viele Seen.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Helsinki Cathedral in July 2004.jpg',photoAlt:'Dom von Helsinki',photoCredit:'Dom von Helsinki · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 5,6 Mio.",area:"338.000 km²",known:"Finnland hat sehr viele Seen und Wälder.",flag:"Das blaue Kreuz steht für Seen und Himmel, der weiße Hintergrund für Schnee.",gaming:"Finnland wäre eine Survival-Map mit Schnee, Seen und Wäldern.",sport:"Eishockey und Wintersport sind in Finnland sehr beliebt.",music:"Finnland ist bekannt für Metal-Musik und starke Bands.",youtube:"Videos aus Finnland zeigen oft Schnee, Sauna und Nordlichter."},
+ "Frankreich":{mnemonic:"Frankreich → Paris: Auf dem Eiffelturm steht ein riesiges P für Paris.",funFact:"Der Eiffelturm sollte ursprünglich nicht für immer stehen bleiben.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Tour Eiffel Wikimedia Commons.jpg',photoAlt:'Eiffelturm in Paris',photoCredit:'Eiffelturm, Paris · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 68 Mio.",area:"551.000 km²",known:"Paris mit dem Eiffelturm ist weltweit bekannt.",flag:"Blau, Weiß und Rot sind die Nationalfarben Frankreichs.",gaming:"Frankreich wäre eine riesige Open-World mit Bergen, Meer, Burgen und Städten.",sport:"Frankreich gewann die Fußball-WM 1998 und 2018.",music:"Viele bekannte DJs und Musiker kommen aus Frankreich.",youtube:"Reise-YouTuber zeigen oft Paris, die Alpen und Südfrankreich."},
+ "Griechenland":{mnemonic:"Griechenland → Athen: Athleten liefen früher in Athen.",funFact:"Die ersten Olympischen Spiele fanden im alten Griechenland statt.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'The Parthenon in Athens.jpg',photoAlt:'Parthenon in Athen',photoCredit:'Parthenon, Athen · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 10 Mio.",area:"132.000 km²",known:"Griechenland hat viele Inseln und sehr alte Tempel.",flag:"Blau und Weiß erinnern an Meer, Himmel und griechische Tradition.",gaming:"Griechenland wäre eine Abenteuer-Map mit Inseln, Tempeln und Bergen.",sport:"Die Olympischen Spiele stammen aus dem alten Griechenland.",music:"Griechische Musik nutzt oft besondere Saiteninstrumente.",youtube:"Viele Videos zeigen griechische Inseln und die Akropolis."},
+ "Irland":{mnemonic:"Irland → Dublin: Ein Kobold wirft zwei Münzen: doppelt = Dublin.",funFact:"Irland wird oft die grüne Insel genannt.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Cliffs of Moher 2005.jpg',photoAlt:'Cliffs of Moher in Irland',photoCredit:'Cliffs of Moher · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 5,3 Mio.",area:"70.000 km²",known:"Irland ist bekannt für grüne Landschaften und Klippen.",flag:"Grün, Weiß und Orange sind die Farben der irischen Flagge.",gaming:"Irland wäre eine Fantasy-Map mit grünen Hügeln und alten Burgen.",sport:"Rugby und Gaelic Football sind sehr beliebt.",music:"Irische Musik ist weltweit bekannt.",youtube:"Viele Videos zeigen Dublin, Klippen und grüne Landschaften."},
+ "Island":{mnemonic:"Island → Reykjavik: Rauch aus heißen Quellen: Reykjavik klingt nach Rauch-vik.",funFact:"Island hat Vulkane und Gletscher zugleich.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Gullfoss, an iconic waterfall of Iceland.jpg',photoAlt:'Gullfoss-Wasserfall in Island',photoCredit:'Gullfoss · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 0,4 Mio.",area:"103.000 km²",known:"Island hat Vulkane, Gletscher, Wasserfälle und heiße Quellen.",flag:"Blau, Weiß und Rot erinnern an Meer, Eis und Feuer.",gaming:"Island wäre eine perfekte Minecraft-Map mit Lava, Eis und Wasserfällen.",sport:"Fußball und Handball sind in Island beliebt.",music:"Island hat sehr bekannte Künstler und besondere Musik.",youtube:"Island ist auf YouTube beliebt wegen Vulkane, Wasserfällen und Nordlichtern."},
+ "Italien":{mnemonic:"Italien → Rom: Römer lebten in Rom.",funFact:"Rom ist berühmt für das Kolosseum.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Colosseum in Rome, Italy - April 2007.jpg',photoAlt:'Kolosseum in Rom',photoCredit:'Kolosseum, Rom · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 59 Mio.",area:"302.000 km²",known:"Italien sieht auf der Karte wie ein Stiefel aus.",flag:"Grün, Weiß und Rot sind die Farben der italienischen Flagge.",gaming:"Italien wäre eine Map mit Städten, Vulkanen, Inseln und alten Arenen.",sport:"Fußball ist in Italien extrem beliebt.",music:"Italien ist bekannt für Oper und Popmusik.",youtube:"Viele Videos zeigen Rom, Venedig, Pizza und das Kolosseum."},
+ "Luxemburg":{mnemonic:"Luxemburg ist einfach: Land und Hauptstadt heißen beide Luxemburg.",funFact:"Luxemburg ist klein, aber sehr international.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Luxembourg Castle Vianden 2012.jpg',photoAlt:'Schloss Vianden in Luxemburg',photoCredit:'Schloss Vianden · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 0,7 Mio.",area:"2.586 km²",known:"Luxemburg ist klein, aber hat viele Burgen und Täler.",flag:"Rot, Weiß und Hellblau sind die Farben der Luxemburger Flagge.",gaming:"Luxemburg könnte man als kleine Minecraft-Map mit Burgen bauen.",sport:"Fußball und Radfahren sind in Luxemburg beliebt.",music:"In Luxemburg gibt es viele Konzerte und Festivals.",youtube:"Reisevideos zeigen oft Luxemburg-Stadt und Schloss Vianden."},
+ "Niederlande":{mnemonic:"Niederlande → Amsterdam: Viele Dämme und Kanäle: Amster-Damm.",funFact:"In den Niederlanden gibt es mehr Fahrräder als Menschen.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Amsterdam canals in winter.jpg',photoAlt:'Kanäle in Amsterdam',photoCredit:'Amsterdam · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 18 Mio.",area:"41.500 km²",known:"Die Niederlande sind bekannt für Fahrräder, Kanäle und Windmühlen.",flag:"Rot, Weiß und Blau sind die Farben der niederländischen Flagge.",gaming:"In Roblox könnte man Amsterdam mit Kanälen und Brücken nachbauen.",sport:"Fußball und Eisschnelllauf sind sehr beliebt.",music:"Viele bekannte DJs kommen aus den Niederlanden.",youtube:"Videos zeigen oft Amsterdam, Fahrräder und Tulpenfelder."},
+ "Norwegen":{mnemonic:"Norwegen → Oslo: Ein O liegt im Schnee: O-slo.",funFact:"Norwegen ist bekannt für Fjorde.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Geirangerfjord from Flydalsjuvet.jpg',photoAlt:'Geirangerfjord in Norwegen',photoCredit:'Geirangerfjord · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 5,6 Mio.",area:"385.000 km²",known:"Norwegen hat Fjorde, Berge und Nordlichter.",flag:"Rot, Weiß und Blau mit Kreuz zeigen die nordische Tradition.",gaming:"Norwegen wäre eine starke Survival-Map mit Bergen, Schnee und Fjorden.",sport:"Wintersport ist in Norwegen sehr stark.",music:"Norwegen ist bekannt für Pop, Elektro und Metal.",youtube:"Viele Videos zeigen Fjorde, Nordlichter und Straßenreisen."},
+ "Österreich":{mnemonic:"Österreich → Wien: Wiener Schnitzel hilft dir bei Wien.",funFact:"Wien ist berühmt für Musik und Schloss Schönbrunn.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Schloss Schönbrunn Wien 2014 (Zuschnitt 1).jpg',photoAlt:'Schloss Schönbrunn in Wien',photoCredit:'Schloss Schönbrunn, Wien · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 9,2 Mio.",area:"84.000 km²",known:"Österreich hat die Alpen und viele berühmte Berge.",flag:"Rot-Weiß-Rot ist eine der bekanntesten Flaggen Europas.",gaming:"Österreich wäre eine Berg-Map mit Schnee, Höhlen und Dörfern.",sport:"Skifahren ist in Österreich sehr wichtig.",music:"Wien ist bekannt für klassische Musik.",youtube:"Viele Videos zeigen Wien, Skifahren und die Alpen."},
+ "Polen":{mnemonic:"Polen → Warschau: Stell dir einen warmen Schal in Warschau vor.",funFact:"Warschau wurde nach dem Krieg stark wiederaufgebaut.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Warsaw Old Town Marketplace.jpg',photoAlt:'Altstadt von Warschau',photoCredit:'Warschauer Altstadt · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 37 Mio.",area:"313.000 km²",known:"Polen hat große Städte, Wälder und eine Ostseeküste.",flag:"Weiß und Rot sind die Farben der polnischen Flagge.",gaming:"Polen passt zu einer großen Map mit Städten, Wäldern und Burgen.",sport:"Fußball und Skispringen sind in Polen beliebt.",music:"Polen hat Popmusik und berühmte klassische Komponisten.",youtube:"Videos zeigen oft Krakau, Warschau und polnisches Essen."},
+ "Portugal":{mnemonic:"Portugal → Lissabon: Lisa fährt nach Lissabon.",funFact:"Portugal liegt direkt am Atlantik.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Lisbon Torre de Belem BW 2018-10-03 12-44-44.jpg',photoAlt:'Torre de Belém in Lissabon',photoCredit:'Torre de Belém, Lissabon · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 10,5 Mio.",area:"92.000 km²",known:"Portugal liegt am Atlantik und ist bekannt für Lissabon und die Algarve.",flag:"Grün und Rot mit Wappen sind die Farben Portugals.",gaming:"In Roblox könnte man den Torre de Belém oder Küstenstädte bauen.",sport:"Cristiano Ronaldo kommt aus Portugal.",music:"Portugal ist bekannt für Fado-Musik.",youtube:"Viele Reisevideos zeigen Lissabon, Porto und die Algarve."},
+ "Rumänien":{mnemonic:"Rumänien → Bukarest: Ein Buch liegt im Rest: Buch-a-rest = Bukarest.",funFact:"Rumänien hat viele Berge und Burgen.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Bran Castle TB1.jpg',photoAlt:'Schloss Bran in Rumänien',photoCredit:'Schloss Bran · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 19 Mio.",area:"238.000 km²",known:"Rumänien hat die Karpaten und berühmte Burgen.",flag:"Blau, Gelb und Rot sind die Farben der rumänischen Flagge.",gaming:"Rumänien wäre eine Abenteuer-Map mit Bergen, Wäldern und Burgen.",sport:"Fußball und Turnen sind in Rumänien bekannt.",music:"Rumänien hat Popmusik und traditionelle Musik.",youtube:"Videos zeigen oft Schloss Bran und die Karpaten."},
+ "Schweden":{mnemonic:"Schweden → Stockholm: Stock + Holm: Ein Stock liegt auf einer Insel.",funFact:"Minecraft wurde ursprünglich in Schweden entwickelt.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Stockholm Gamla stan 2009.jpg',photoAlt:'Gamla Stan in Stockholm',photoCredit:'Gamla Stan, Stockholm · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 10,6 Mio.",area:"450.000 km²",known:"Schweden hat viele Wälder, Seen und liegt im Norden Europas.",flag:"Blau mit gelbem Kreuz ist die schwedische Flagge.",gaming:"Minecraft wurde ursprünglich in Schweden entwickelt.",sport:"Eishockey und Fußball sind in Schweden beliebt.",music:"Viele berühmte Popgruppen und Produzenten kommen aus Schweden.",youtube:"Videos zeigen oft Stockholm, Wälder und schwedisches Design."},
+ "Schweiz":{mnemonic:"Schweiz → Bern: Der Bär von Bern merkt sich die Hauptstadt.",funFact:"Die Schweiz hat vier Landessprachen.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Matterhorn from Domhütte - 2.jpg',photoAlt:'Matterhorn in der Schweiz',photoCredit:'Matterhorn · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 9 Mio.",area:"41.000 km²",known:"Die Schweiz ist bekannt für Berge, Seen, Uhren und Schokolade.",flag:"Die Schweizer Flagge ist rot mit einem weißen Kreuz.",gaming:"Die Schweiz wäre eine Berg-Map mit Schnee, Tunneln und Seen.",sport:"Skifahren und Fußball sind sehr beliebt.",music:"Die Schweiz hat viele Musikfestivals.",youtube:"Viele Videos zeigen Alpen, Züge und Schokolade."},
+ "Spanien":{mnemonic:"Spanien → Madrid: Ein Matador ruft: Madrid!",funFact:"Spanien hat viele verschiedene Landschaften: Strände, Berge und Städte.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Sagrada Familia 01.jpg',photoAlt:'Sagrada Família in Barcelona',photoCredit:'Sagrada Família, Barcelona · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 48 Mio.",area:"506.000 km²",known:"Spanien hat Strände, Berge und viele sonnige Städte.",flag:"Rot und Gelb sind die Farben der spanischen Flagge.",gaming:"Spanien wäre eine große Open-World mit Wüsten, Bergen, Küsten und Städten.",sport:"Fußball ist in Spanien extrem beliebt.",music:"Spanien ist bekannt für Flamenco und Popmusik.",youtube:"Videos zeigen oft Barcelona, Madrid und Strände."},
+ "Tschechien":{mnemonic:"Tschechien → Prag: In Prag steht eine prächtige Brücke.",funFact:"Prag ist bekannt für die Karlsbrücke.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Prague Charles Bridge and Castle.jpg',photoAlt:'Karlsbrücke und Burg in Prag',photoCredit:'Prag · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 10,9 Mio.",area:"79.000 km²",known:"Tschechien ist bekannt für Prag und viele Burgen.",flag:"Weiß, Rot und Blau sind die Farben der tschechischen Flagge.",gaming:"Tschechien wäre eine Burg- und Stadt-Map mit alten Gassen.",sport:"Eishockey ist in Tschechien sehr beliebt.",music:"Prag hat eine lange Musiktradition.",youtube:"Videos zeigen oft Prag, Brücken und Burgen."},
+ "Ungarn":{mnemonic:"Ungarn → Budapest: Buda und Pest sind zwei Teile einer Stadt.",funFact:"Durch Budapest fließt die Donau.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Budapest Parliament Building from Danube.jpg',photoAlt:'Parlament in Budapest',photoCredit:'Parlament, Budapest · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 9,6 Mio.",area:"93.000 km²",known:"Ungarn ist bekannt für Budapest und die Donau.",flag:"Rot, Weiß und Grün sind die Farben der ungarischen Flagge.",gaming:"Ungarn wäre eine Stadt-Map mit Fluss, Brücken und Thermalbädern.",sport:"Wasserball und Fußball sind in Ungarn bekannt.",music:"Ungarn hat klassische Musik und moderne Popmusik.",youtube:"Videos zeigen oft Budapest und die Donau."},
+ "Vereinigtes Königreich":{mnemonic:"Großbritannien → London: In London fährt der rote Bus am Big Ben vorbei.",funFact:"London hat rote Busse, Big Ben und die Tower Bridge.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Palace of Westminster, London - Feb 2007.jpg',photoAlt:'Westminster in London',photoCredit:'Westminster, London · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 68 Mio.",area:"244.000 km²",known:"London ist bekannt für Big Ben, rote Busse und die Tower Bridge.",flag:"Der Union Jack kombiniert Kreuze verschiedener Landesteile.",gaming:"Das Vereinigte Königreich wäre eine Map mit Städten, Küsten und alten Burgen.",sport:"Fußball ist dort sehr wichtig; viele bekannte Clubs kommen von dort.",music:"Viele berühmte Bands und Sänger kommen aus dem Vereinigten Königreich.",youtube:"Viele große englischsprachige YouTube-Kanäle kommen von dort."},
+ "Russland":{mnemonic:"Russland → Moskau: Eine Maus kaut am Kreml: Maus-kau.",funFact:"Russland ist das größte Land der Welt.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Saint Basils Cathedral Moscow.jpg',photoAlt:'Basilius-Kathedrale in Moskau',photoCredit:'Basilius-Kathedrale, Moskau · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 144 Mio.",area:"17 Mio. km²",known:"Russland ist das größte Land der Welt; ein Teil liegt in Europa.",flag:"Weiß, Blau und Rot sind die Farben der russischen Flagge.",gaming:"Russland wäre eine riesige Open-World mit Schnee, Wäldern, Städten und Bergen.",sport:"Eishockey und Fußball sind in Russland sehr beliebt.",music:"Russland ist bekannt für klassische Musik und Ballett.",youtube:"Videos zeigen oft Moskau, Sankt Petersburg und sehr große Landschaften."},
+ "Türkei":{mnemonic:"Türkei → Ankara: Ein Anker liegt in Ankara.",funFact:"Istanbul liegt auf zwei Kontinenten: Europa und Asien.",gamingPhoto:"images/gaming/gaming-world.svg",photo:'Hagia Sophia Mars 2013.jpg',photoAlt:'Hagia Sophia in Istanbul',photoCredit:'Hagia Sophia, Istanbul · Wikimedia Commons',photoLicense:'Wikimedia Commons',pop:"ca. 85 Mio.",area:"783.000 km²",known:"Ein Teil der Türkei liegt in Europa, der größere Teil in Asien.",flag:"Rot mit weißem Halbmond und Stern ist die türkische Flagge.",gaming:"Die Türkei wäre eine riesige Map mit Städten, Bergen, Meer und alten Ruinen.",sport:"Fußball ist in der Türkei sehr beliebt.",music:"Türkische Popmusik ist sehr bekannt.",youtube:"Videos zeigen oft Istanbul, Basare und die Küste."}
 };
 let discoverIndex=0;
+
+function updateDiscoverNavButtons(){
+ const prev=byId("discoverPrevBtn");
+ const next=byId("discoverNextBtn");
+ if(!prev || !next)return;
+ const isDiscover = mode==="discover";
+ prev.classList.toggle("hidden", !isDiscover);
+ next.classList.toggle("hidden", !isDiscover);
+ if(isDiscover){
+   prev.disabled = discoverIndex===0;
+   next.textContent = discoverIndex>=questions.length-1 ? "Fertig" : "Weiter →";
+ }
+}
+
 function discoveryInfo(c){
  return DISCOVERY_INFO[c.country] || {
    pop:"unbekannt",
@@ -1250,6 +1579,7 @@ function discoveryInfo(c){
  };
 }
 function startDiscovery(){
+ mode="discover";
  selected=Array.from(document.querySelectorAll(".countryCheck:checked")).map(ch=>DATA[Number(ch.value)]);
  if(selected.length===0){alert("Bitte mindestens ein Land auswählen.");return}
  if(opt("randomOrder"))selected=shuffle(selected);
@@ -1264,6 +1594,7 @@ function startDiscovery(){
  byId("mistakes").textContent=0;
  byId("elapsedTime").textContent="00:00";
  renderDiscoveryCard();
+ updateDiscoverNavButtons();
 }
 function renderDiscoveryCard(){
  clearUI();
@@ -1273,34 +1604,60 @@ function renderDiscoveryCard(){
  byId("taskText").textContent="Entdecken";
  byId("question").textContent="";
  const info=discoveryInfo(c);
+ const mapId="miniMap_"+discoverIndex+"_"+c.iso3;
+ const countryPhoto=discoveryPhotoSrc(info);
+ const countryAlt=safeAttr(info.photoAlt || ("Bild aus " + c.country));
+ const fallbackHtml=`<div class="discoverMainPhotoFallback">${c.flag}<br>${displayCountryName(c.country)}</div>`;
 
  let interests="";
- if(opt("interestGaming"))interests+=`<div class="discoverInterest"><strong>🎮 Gaming</strong><br>${info.gaming}</div>`;
- if(opt("interestSport"))interests+=`<div class="discoverInterest"><strong>⚽ Sport</strong><br>${info.sport}</div>`;
- if(opt("interestMusic"))interests+=`<div class="discoverInterest"><strong>🎵 Musik</strong><br>${info.music}</div>`;
- if(opt("interestYoutube"))interests+=`<div class="discoverInterest"><strong>▶️ YouTube</strong><br>${info.youtube}</div>`;
+ if(opt("interestGaming"))interests+=`<div class="interestBox"><strong>🎮 Gaming</strong><br>${info.gaming}</div>`;
+ if(opt("interestSport"))interests+=`<div class="interestBox"><strong>⚽ Sport</strong><br>${info.sport}</div>`;
+ if(opt("interestMusic"))interests+=`<div class="interestBox"><strong>🎵 Musik</strong><br>${info.music}</div>`;
+ if(opt("interestYoutube"))interests+=`<div class="interestBox"><strong>▶️ YouTube</strong><br>${info.youtube}</div>`;
 
  byId("choiceArea").classList.remove("hidden");
  byId("choiceArea").innerHTML=`<div class="discoverCard">
-   <div class="discoverTop">
-     <div>${flagImg(c,"discoverFlag")}</div>
-     <div>
-       <div class="discoverTitle">${c.flag} ${c.country}</div>
-       <div><strong>Hauptstadt:</strong> ${c.capital}</div>
-       <div class="discoverFacts">
-         <div class="discoverFactBox">👥 Einwohner<br>${info.pop}</div>
-         <div class="discoverFactBox">📏 Größe<br>${info.area}</div>
-         <div class="discoverFactBox">🏳️ Flagge<br>${info.flag}</div>
-       </div>
-       <div class="discoverInterest"><strong>⭐ Merken</strong><br>${info.known}</div>
-       ${interests || `<div class="discoverInterest"><strong>⭐ Tipp</strong><br>Wähle oben Interessen aus, dann wird die Entdeckung spannender.</div>`}
+   <div class="discoverHeader">
+     <div class="discoverTitle">${c.flag} ${displayCountryName(c.country)}</div>
+     <div class="discoverCounter">${discoverIndex+1}/${questions.length}</div>
+   </div>
+
+   <div class="discoverMediaGrid noGaming">
+     <div class="discoverMediaBox">
+       <div class="discoverMediaTitle">📸 Echtes Leben</div>
+       ${countryPhoto ? `<img class="discoverMainPhoto" src="${countryPhoto}" alt="${countryAlt}" loading="lazy" onclick="openLightbox(this.src)" onerror="this.outerHTML='${fallbackHtml.replace(/'/g,"\\'")}'">` : fallbackHtml}
+       <div class="discoverPhotoCaption">${photoCaption(info)}</div>
      </div>
    </div>
+
+   <div class="discoverInfoGrid">
+     <div>
+       <div class="discoverQuickFacts">
+         <div class="discoverFactBox">🏙 Hauptstadt<br>${c.capital}</div>
+         <div class="discoverFactBox">👥 Einwohner<br>${info.pop}</div>
+         <div class="discoverFactBox">📏 Größe<br>${info.area}</div>
+       </div>
+       <div class="memoryBox"><strong>💡 Eselsbrücke</strong><br>${info.mnemonic || (c.country+" → "+c.capital+" merken.")}</div>
+       <div class="knowBox"><strong>⭐ Wusstest du?</strong><br>${info.funFact || info.known}</div>
+       ${interests}
+     </div>
+     <div class="discoverSide">
+       <div class="flagBox">${flagImg(c,"discoverFlagMini")}<strong>🏳️ Flagge</strong><br>${info.flag}</div>
+       <div class="miniMapBox" onclick="openMapLightbox('${displayCountryName(c.country).replace(/'/g,"\\'")}','${c.iso3}')">
+         <div class="miniMapTitle">🗺️ Hier liegt ${displayCountryName(c.country)}</div>
+         <div id="${mapId}" class="miniEuropeMap"></div>
+         <div class="mapOpenHint">Tippen zum Vergrößern</div>
+       </div>
+     </div>
+   </div>
+
    <div class="discoverActions">
      <button class="secondary" onclick="previousDiscovery()" ${discoverIndex===0?"disabled":""}>← Zurück</button>
      <button class="green" onclick="nextDiscovery()">${discoverIndex>=questions.length-1?"Fertig":"Weiter →"}</button>
    </div>
  </div>`;
+ makeMiniMap(mapId,c);
+ updateDiscoverNavButtons();
 }
 function nextDiscovery(){
  if(discoverIndex>=questions.length-1){
@@ -1564,8 +1921,31 @@ function showStatistics(){
  if(h)h.textContent="Statistik";
  renderProgress();
 }
+
+function closeMapLightbox(){
+ const o=document.getElementById("mapLightboxOverlay");
+ if(o)o.style.display="none";
+ document.removeEventListener("keydown",mapEscClose);
+}
+function mapEscClose(e){
+ if(e.key==="Escape")closeMapLightbox();
+}
+
 function resetProgress(){if(confirm("Fortschritt wirklich löschen?")){progress={};saveProgress();alert("Fortschritt gelöscht.")}}
-function backToSetup(){stopElapsedTimer();if(map){map.remove();map=null}byId("game").classList.add("hidden");byId("result").classList.add("hidden");byId("setup").classList.remove("hidden")}
+function backToSetup(){
+ stopElapsedTimer();
+ if(map){map.remove();map=null}
+ byId("game").classList.add("hidden");
+ byId("result").classList.add("hidden");
+ byId("setup").classList.remove("hidden");
+ mode="";
+ updateDiscoverNavButtons();
+}
 document.addEventListener("DOMContentLoaded",()=>{renderCountries();const input=byId("answerInput");if(input)input.addEventListener("keydown",e=>{if(e.key==="Enter")submitText()}); const cs=byId("countrySearch"); if(cs)cs.addEventListener("input",filterCountries)})
 </script>
-</body></html>
+
+<div id="lightboxOverlay" class="lightboxOverlay" onclick="this.style.display='none'">
+  <img id="lightboxImage" src="" alt="">
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#80c7ff"/><stop offset="58%" stop-color="#c9f2ff"/><stop offset="100%" stop-color="#fff1b8"/></linearGradient></defs>
+<rect width="1200" height="760" fill="url(#sky)"/><circle cx="990" cy="115" r="58" fill="#ffd166"/>
+<rect x="0" y="520" width="1200" height="240" fill="#59a14f"/><rect x="0" y="620" width="1200" height="140" fill="#7b4f2c"/>
+<rect x="90" y="455" width="120" height="120" fill="#8b5e34"/><rect x="90" y="415" width="120" height="40" fill="#3fa34d"/>
+<rect x="230" y="390" width="120" height="185" fill="#8b5e34"/><rect x="230" y="350" width="120" height="40" fill="#3fa34d"/>
+<rect x="370" y="475" width="120" height="100" fill="#8b5e34"/><rect x="370" y="435" width="120" height="40" fill="#3fa34d"/>
+<rect x="510" y="420" width="120" height="155" fill="#8b5e34"/><rect x="510" y="380" width="120" height="40" fill="#3fa34d"/>
+<path d="M820 465 C770 410 775 300 850 260 C910 225 1005 240 1048 300 C1118 398 1050 515 930 515 C885 515 850 497 820 465Z" fill="#111827" stroke="#fff8dc" stroke-width="22"/>
+<circle cx="875" cy="380" r="22" fill="#3fa34d"/><circle cx="990" cy="380" r="22" fill="#3fa34d"/><rect x="920" y="345" width="42" height="42" fill="#fff8dc"/><rect x="920" y="392" width="42" height="42" fill="#fff8dc"/>
+<text x="600" y="115" text-anchor="middle" font-family="Trebuchet MS, Arial" font-size="66" font-weight="900" fill="#2f2419">🎮 Gaming-Welt</text>
+<text x="600" y="190" text-anchor="middle" font-family="Trebuchet MS, Arial" font-size="36" font-weight="800" fill="#2f2419">Minecraft · Roblox · Fortnite · Mario · Rocket League</text>
+<text x="600" y="695" text-anchor="middle" font-family="Trebuchet MS, Arial" font-size="34" font-weight="900" fill="#fff8dc">Stell dir das Land wie eine eigene Spielkarte vor.</text>
+</svg>
